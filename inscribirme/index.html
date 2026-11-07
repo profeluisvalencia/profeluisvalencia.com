@@ -43,6 +43,8 @@
   .btn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:18px;border-radius:12px;padding:16px;margin-top:6px}
   .btn.main{background:var(--neon);color:#000}
   .btn.wa{background:#25D366;color:#04210f}
+  .btn.alt{background:transparent;color:var(--neon);border:2px solid var(--neon)}
+  .btn.help{margin-top:22px;padding:18px}
   .steps{font-size:15px;color:#d4d4d4;margin:0 0 12px 18px}
   .steps li{margin-bottom:4px}
   .foot{text-align:center;color:var(--mut);font-size:14px;margin-top:26px}
@@ -90,6 +92,8 @@
     <div class="body">
       <p class="note">Pago seguro con Clip. Al pagar eliges si es de contado o a meses sin intereses con tu tarjeta de crédito.</p>
       <a class="btn main" data-link="clip" target="_blank" rel="noopener">Pagar con tarjeta</a>
+      <p class="note" style="margin-top:14px">¿Clip rechazó tu tarjeta? Intenta por aquí:</p>
+      <a class="btn alt" href="https://buy.stripe.com/14AbJ02Jo70p7kT8jOgUM06" target="_blank" rel="noopener">Pagar con tarjeta · Opción 2</a>
     </div>
   </div>
 
@@ -136,7 +140,7 @@
     </div>
   </div>
 
-  <p class="foot">¿Dudas para pagar? <a data-wa="Duda" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
+  <a class="btn wa help" data-wa="Duda" target="_blank" rel="noopener">💬 ¿Dudas o problemas para pagar? Escríbenos</a>
 </div>
 
 <script>
@@ -166,7 +170,7 @@ document.querySelectorAll("[data-link]").forEach(el => el.href = CONFIG[el.datas
 document.querySelectorAll("[data-wa]").forEach(el => {
   const tipo = el.dataset.wa;
   const msg = tipo === "Duda"
-    ? "Hola Profe Luis, tengo una duda para inscribirme al Estratega PH."
+    ? "Hola Profe Luis, tengo una duda o problema para pagar el Estratega PH."
     : `Hola Profe Luis, ya pagué el Estratega PH por ${tipo}. Te envío mi comprobante. Mi nombre completo es: `;
   el.href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
 });
