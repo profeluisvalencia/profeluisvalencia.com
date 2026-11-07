@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inscríbete · Estratega Promoción Horizontal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0b0b0b;--card:#161616;--line:#2a2a2a;--txt:#f5f5f5;--mut:#a3a3a3;--neon:#BDFF00}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:480px;margin:0 auto;padding:22px 18px 48px}
+  .tag{display:inline-block;background:var(--neon);color:#000;font-weight:700;font-size:13px;padding:5px 10px;border-radius:6px;letter-spacing:.3px}
+  h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:46px;line-height:.95;margin:14px 0 8px;letter-spacing:.5px}
+  h1 span{color:var(--neon)}
+  .sub{color:var(--mut);font-size:16px}
+  .price{margin:20px 0 6px;display:flex;align-items:baseline;gap:8px}
+  .price b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:54px;color:var(--neon);line-height:1}
+  .price small{color:var(--mut);font-size:15px}
+  .guar{background:#121a00;border:1px solid #3d5200;border-radius:12px;padding:12px 14px;font-size:15px;margin:14px 0 26px}
+  .guar strong{color:var(--neon)}
+  h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:28px;letter-spacing:.5px;margin-bottom:12px}
+  .opt{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden}
+  .opt.rec{border-color:var(--neon)}
+  .head{width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;padding:18px 16px;display:flex;align-items:center;gap:14px;cursor:pointer}
+  .ico{font-size:28px;width:44px;height:44px;display:grid;place-items:center;background:#222;border-radius:12px;flex:none}
+  .head .t{flex:1}
+  .head .t b{display:block;font-size:18px}
+  .head .t i{font-style:normal;color:var(--mut);font-size:14px}
+  .badge{background:var(--neon);color:#000;font-size:11px;font-weight:700;padding:3px 7px;border-radius:5px;margin-left:6px;vertical-align:middle}
+  .arrow{color:var(--mut);transition:transform .2s;font-size:20px}
+  .opt.open .arrow{transform:rotate(90deg)}
+  .body{display:none;padding:0 16px 18px}
+  .opt.open .body{display:block}
+  .row{background:#0f0f0f;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .row .k{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+  .row .v{font-size:18px;font-weight:700;word-break:break-all}
+  .row div{flex:1}
+  .copy{background:#262626;color:var(--txt);border:1px solid #3a3a3a;border-radius:8px;padding:9px 12px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;flex:none}
+  .copy.ok{background:var(--neon);color:#000;border-color:var(--neon)}
+  .note{font-size:14px;color:var(--mut);margin:6px 0 12px}
+  .btn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:18px;border-radius:12px;padding:16px;margin-top:6px}
+  .btn.main{background:var(--neon);color:#000}
+  .btn.wa{background:#25D366;color:#04210f}
+  .steps{font-size:15px;color:#d4d4d4;margin:0 0 12px 18px}
+  .steps li{margin-bottom:4px}
+  .foot{text-align:center;color:var(--mut);font-size:14px;margin-top:26px}
+  .foot a{color:var(--neon)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="tag">INSCRIPCIONES ABIERTAS</span>
+  <h1>Estratega <span>Promoción Horizontal</span></h1>
+  <p class="sub">24 sesiones para ganar tu +35% de sueldo con el Profe Luis Valencia.</p>
+
+  <div class="price"><b id="precio"></b><small>MXN · pago único</small></div>
+
+  <div class="guar"><strong>Garantía total:</strong> si lo que viene en el examen no lo estudiamos en el curso, te devolvemos el 100% de tu inversión.</div>
+
+  <h2>Elige cómo quieres pagar</h2>
+
+  <!-- TRANSFERENCIA -->
+  <div class="opt rec open">
+    <button class="head" aria-expanded="true">
+      <span class="ico">🏦</span>
+      <span class="t"><b>Transferencia <span class="badge">MÁS RÁPIDO</span></b><i>Desde la app de tu banco</i></span>
+      <span class="arrow">›</span>
+    </button>
+    <div class="body">
+      <div class="row"><div><div class="k">Banco</div><div class="v" data-f="banco"></div></div></div>
+      <div class="row"><div><div class="k">Beneficiario</div><div class="v" data-f="beneficiario"></div></div></div>
+      <p class="note">Si tu banco no te deja escribir la Ñ, escribe <b>Urena</b>.</p>
+      <div class="row"><div><div class="k">CLABE</div><div class="v" data-f="clabe"></div></div><button class="copy" data-c="clabe">Copiar</button></div>
+      <div class="row"><div><div class="k">O a la tarjeta de débito</div><div class="v" data-f="tarjetaDebito"></div></div><button class="copy" data-c="tarjetaDebito">Copiar</button></div>
+      <div class="row"><div><div class="k">Monto</div><div class="v" data-f="monto"></div></div><button class="copy" data-c="montoNum">Copiar</button></div>
+      <p class="note">En "concepto" escribe tu nombre completo.</p>
+      <a class="btn wa" data-wa="Transferencia" target="_blank" rel="noopener">Ya pagué · Enviar comprobante</a>
+    </div>
+  </div>
+
+  <!-- TARJETA CONTADO -->
+  <div class="opt">
+    <button class="head" aria-expanded="false">
+      <span class="ico">💳</span>
+      <span class="t"><b>Tarjeta de débito o crédito</b><i>De contado o a meses sin intereses</i></span>
+      <span class="arrow">›</span>
+    </button>
+    <div class="body">
+      <p class="note">Pago seguro con Clip. Al pagar eliges si es de contado o a meses sin intereses con tu tarjeta de crédito.</p>
+      <a class="btn main" data-link="clip" target="_blank" rel="noopener">Pagar con tarjeta</a>
+    </div>
+  </div>
+
+  <!-- OXXO -->
+  <div class="opt">
+    <button class="head" aria-expanded="false">
+      <span class="ico">🏪</span>
+      <span class="t"><b>Efectivo en OXXO</b><i>Depósito a tarjeta</i></span>
+      <span class="arrow">›</span>
+    </button>
+    <div class="body">
+      <div class="guar" style="margin:0 0 12px"><strong>Importante:</strong> OXXO permite máximo <b>$5,000 por depósito</b>. Haz <b>2 depósitos</b> y envía <b>los 2 tickets</b>.</div>
+      <ol class="steps">
+        <li>Ve a cualquier OXXO y pide un <b>depósito a tarjeta</b>.</li>
+        <li>Haz el 1.er depósito de <b>$5,000</b> y el 2.º de <b data-f="resto"></b>.</li>
+        <li>Toma foto de tus 2 tickets y envíalos por WhatsApp.</li>
+      </ol>
+      <div class="row"><div><div class="k">Número de tarjeta</div><div class="v" data-f="tarjetaOxxo"></div></div><button class="copy" data-c="tarjetaOxxo">Copiar</button></div>
+      <div class="row"><div><div class="k">A nombre de</div><div class="v" data-f="beneficiario"></div></div></div>
+      <div class="row"><div><div class="k">Depósito 1</div><div class="v">$5,000 MXN</div></div></div>
+      <div class="row"><div><div class="k">Depósito 2</div><div class="v" data-f="restoMxn"></div></div></div>
+      <p class="note">OXXO cobra una pequeña comisión en caja por cada depósito.</p>
+      <a class="btn wa" data-wa="OXXO (2 depósitos)" target="_blank" rel="noopener">Ya pagué · Enviar mis 2 tickets</a>
+    </div>
+  </div>
+
+  <!-- AZTECA -->
+  <div class="opt">
+    <button class="head" aria-expanded="false">
+      <span class="ico">💵</span>
+      <span class="t"><b>Efectivo en Banco Azteca</b><i>Depósito en ventanilla (sucursal o Elektra)</i></span>
+      <span class="arrow">›</span>
+    </button>
+    <div class="body">
+      <ol class="steps">
+        <li>Ve a cualquier sucursal de Banco Azteca y pide un <b>depósito a cuenta</b>.</li>
+        <li>Da este número de tarjeta y el monto.</li>
+        <li>Toma foto de tu comprobante y envíalo por WhatsApp.</li>
+      </ol>
+      <div class="row"><div><div class="k">Número de tarjeta</div><div class="v" data-f="tarjetaDebito"></div></div><button class="copy" data-c="tarjetaDebito">Copiar</button></div>
+      <div class="row"><div><div class="k">A nombre de</div><div class="v" data-f="beneficiario"></div></div></div>
+      <div class="row"><div><div class="k">Monto</div><div class="v" data-f="monto"></div></div></div>
+      <a class="btn wa" data-wa="depósito en Banco Azteca" target="_blank" rel="noopener">Ya pagué · Enviar comprobante</a>
+    </div>
+  </div>
+
+  <p class="foot">¿Dudas para pagar? <a data-wa="Duda" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
+</div>
+
+<script>
+/* ====== EDITA SOLO ESTO ====== */
+const CONFIG = {
+  precio: 6987,
+  banco: "Banco Azteca",
+  beneficiario: "Luis Alberto Valencia Ureña",
+  clabe: "1278 8800 1200 0447 08",
+  tarjetaDebito: "4027 6650 0195 3448",
+  tarjetaOxxo: "4217 4701 9586 5726",
+  clip: "https://pago.clip.mx/v3/b0e3a96f-7aad-4f5f-8bc9-85a9de08943f", // tarjeta contado o MSI
+  whatsapp: "522286070653" // número para comprobantes (52 + 10 dígitos)
+};
+/* ============================= */
+
+const fmt = n => "$" + n.toLocaleString("es-MX");
+const resto = CONFIG.precio - 5000;
+const vals = {...CONFIG, monto: fmt(CONFIG.precio) + " MXN", montoNum: String(CONFIG.precio), resto: fmt(resto), restoMxn: fmt(resto) + " MXN"};
+// Oculta opciones sin link y botones de WhatsApp sin número
+["clip"].forEach(k => { if (!CONFIG[k] || CONFIG[k] === "#") document.querySelector(`[data-link="${k}"]`).closest(".opt").style.display = "none"; });
+const waOk = /^52\d{10}$/.test(CONFIG.whatsapp);
+if (!waOk) document.querySelectorAll("[data-wa]").forEach(el => (el.closest(".foot") || el).style.display = "none");
+document.getElementById("precio").textContent = fmt(CONFIG.precio);
+document.querySelectorAll("[data-f]").forEach(el => el.textContent = vals[el.dataset.f]);
+document.querySelectorAll("[data-link]").forEach(el => el.href = CONFIG[el.dataset.link]);
+document.querySelectorAll("[data-wa]").forEach(el => {
+  const tipo = el.dataset.wa;
+  const msg = tipo === "Duda"
+    ? "Hola Profe Luis, tengo una duda para inscribirme al Estratega PH."
+    : `Hola Profe Luis, ya pagué el Estratega PH por ${tipo}. Te envío mi comprobante. Mi nombre completo es: `;
+  el.href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
+});
+document.querySelectorAll(".head").forEach(h => h.addEventListener("click", () => {
+  const card = h.parentElement, open = !card.classList.contains("open");
+  document.querySelectorAll(".opt").forEach(o => { o.classList.remove("open"); o.querySelector(".head").setAttribute("aria-expanded","false"); });
+  if (open) { card.classList.add("open"); h.setAttribute("aria-expanded","true"); }
+}));
+document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", async () => {
+  const txt = String(vals[b.dataset.c]).replace(/\s/g, "");
+  try { await navigator.clipboard.writeText(txt); }
+  catch (e) {
+    const r = document.createRange(); r.selectNodeContents(b.previousElementSibling.querySelector(".v"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  b.textContent = "¡Copiado!"; b.classList.add("ok");
+  setTimeout(() => { b.textContent = "Copiar"; b.classList.remove("ok"); }, 1800);
+}));
+</script>
+</body>
+</html>
