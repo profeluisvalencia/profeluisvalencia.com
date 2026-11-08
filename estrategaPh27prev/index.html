@@ -259,7 +259,7 @@ details summary::-webkit-details-marker{display:none}
 <div style="display: flex; flex-direction: column; gap: 16px; max-width: 860px">
 <span style="display: inline-block; align-self: flex-start; background: #BDFF00; color: #0B0B0B; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; padding: 8px 14px; transform: skewX(-10deg); border-radius: 3px">Además, si te inscribes hoy</span>
 <h2 style="font-family: 'Bebas Neue', Impact, sans-serif; font-weight: 400; letter-spacing: 0.5px; line-height: 0.95; margin: 0; font-size: clamp(44px, 5vw, 72px)">Bonos con valor de <span style="color: #BDFF00">$11,987</span> que recibes gratis</h2>
-<p style="font-family: 'DM Sans', system-ui, sans-serif; font-size: 19px; line-height: 1.6; color: #D4D4D4; margin: 0">Los <strong style="color: #FFFFFF">bonos de acción rápida</strong> solo se entregan a quienes se inscriben antes de que el contador de arriba llegue a cero. Después, conservas el programa, pero estos bonos ya no se incluyen.</p>
+<p style="font-family: 'DM Sans', system-ui, sans-serif; font-size: 19px; line-height: 1.6; color: #D4D4D4; margin: 0">Los <strong style="color: #FFFFFF">bonos de acción rápida</strong> solo se entregan a quienes se inscriben antes del domingo 8 de noviembre a las 10:30 pm (hora del centro de México), cuando el contador de arriba llega a cero. Después, conservas el programa, pero estos bonos ya no se incluyen.</p>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px">
 <article class="card" style="background: #FFFFFF; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 14px 34px rgba(0,0,0,0.12); position: relative">
@@ -557,9 +557,7 @@ details summary::-webkit-details-marker{display:none}
 </main>
 <script>
 (function(){
-  var key="estratega_ph27_deadline",end=0;
-  try{end=parseInt(localStorage.getItem(key)||"0",10);}catch(e){}
-  if(!end){end=Date.now()+86400000;try{localStorage.setItem(key,String(end));}catch(e){}}
+  var end=Date.UTC(2026,10,9,4,30,0); // domingo 8 nov 2026, 10:30 pm hora CDMX
   function p(n){return(n<10?"0":"")+n;}
   function tick(){
     var left=Math.max(0,end-Date.now()),t=Math.floor(left/1000);
