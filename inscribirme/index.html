@@ -47,6 +47,15 @@
   .btn.help{margin-top:22px;padding:18px}
   .steps{font-size:15px;color:#d4d4d4;margin:0 0 12px 18px}
   .steps li{margin-bottom:4px}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:2px 0 12px}
+  .plan{background:#0f0f0f;border:1.5px solid var(--line);color:var(--txt);border-radius:10px;padding:12px 6px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;line-height:1.15}
+  .plan.on{background:var(--neon);color:#000;border-color:var(--neon)}
+  .sched{background:#121a00;border:1px solid #3d5200;border-radius:12px;padding:12px 14px;margin-bottom:14px}
+  .sched .ln{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed #2f3f00;font-size:15px}
+  .sched .ln:last-child{border-bottom:0}
+  .sched .ln b{color:var(--neon);white-space:nowrap}
+  .sched .ln.hoy span{font-weight:700}
+  .sched .tot{font-size:13px;color:var(--mut);margin-top:6px}
   .foot{text-align:center;color:var(--mut);font-size:14px;margin-top:26px}
   .foot a{color:var(--neon)}
 </style>
@@ -71,14 +80,21 @@
       <span class="arrow">›</span>
     </button>
     <div class="body">
+      <p class="note" style="margin-top:0">Elige cómo quieres pagar por transferencia:</p>
+      <div class="plans" role="group" aria-label="Plan de pago">
+        <button class="plan on" data-plan="contado">Pago de contado</button>
+        <button class="plan" data-plan="dos">2 pagos</button>
+        <button class="plan" data-plan="tres">3 pagos</button>
+      </div>
+      <div class="sched" id="sched"></div>
       <div class="row"><div><div class="k">Banco</div><div class="v" data-f="banco"></div></div></div>
       <div class="row"><div><div class="k">Beneficiario</div><div class="v" data-f="beneficiario"></div></div></div>
       <p class="note">Si tu banco no te deja escribir la Ñ, escribe <b>Urena</b>.</p>
       <div class="row"><div><div class="k">CLABE</div><div class="v" data-f="clabe"></div></div><button class="copy" data-c="clabe">Copiar</button></div>
       <div class="row"><div><div class="k">O a la tarjeta de débito</div><div class="v" data-f="tarjetaDebito"></div></div><button class="copy" data-c="tarjetaDebito">Copiar</button></div>
-      <div class="row"><div><div class="k">Monto</div><div class="v" data-f="monto"></div></div><button class="copy" data-c="montoNum">Copiar</button></div>
+      <div class="row"><div><div class="k" id="montoLbl">Monto a transferir hoy</div><div class="v" id="montoHoy"></div></div><button class="copy" data-c="montoHoy">Copiar</button></div>
       <p class="note">En "concepto" escribe tu nombre completo.</p>
-      <a class="btn wa" data-wa="Transferencia" target="_blank" rel="noopener">Ya pagué · Enviar comprobante</a>
+      <a class="btn wa" data-wa="Transferencia" id="waTransf" target="_blank" rel="noopener">Ya pagué · Enviar comprobante</a>
     </div>
   </div>
 
@@ -174,13 +190,35 @@ document.querySelectorAll("[data-wa]").forEach(el => {
     : `Hola Profe Luis, ya pagué el Estratega PH por ${tipo}. Te envío mi comprobante. Mi nombre completo es: `;
   el.href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
 });
+const PLANES = {
+  contado: {nombre: "pago de contado", pagos: [["Hoy", 6987]]},
+  dos: {nombre: "2 pagos", pagos: [["Hoy", 2000], ["15 de noviembre", 4987]]},
+  tres: {nombre: "3 pagos", pagos: [["Hoy", 2000], ["15 de noviembre", 3000], ["30 de noviembre", 2987]]}
+};
+const tv = {...vals};
+function setPlan(k) {
+  const pl = PLANES[k];
+  document.querySelectorAll(".plan").forEach(b => b.classList.toggle("on", b.dataset.plan === k));
+  document.getElementById("sched").innerHTML = pl.pagos.map((p, i) =>
+    `<div class="ln${i === 0 ? " hoy" : ""}"><span>${pl.pagos.length > 1 ? "Pago " + (i + 1) + " · " : ""}${p[0]}</span><b>${fmt(p[1])} MXN</b></div>`).join("")
+    + (pl.pagos.length > 1 ? `<div class="tot">Hoy haces tu primer pago por transferencia a la misma cuenta de Banco Azteca.</div>` : "");
+  const hoy = pl.pagos[0][1];
+  tv.montoHoy = String(hoy);
+  document.getElementById("montoHoy").textContent = fmt(hoy) + " MXN";
+  document.getElementById("montoLbl").textContent = pl.pagos.length > 1 ? "Primer pago (hoy)" : "Monto a transferir hoy";
+  const wa = document.getElementById("waTransf");
+  if (wa && waOk) wa.href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(
+    `Hola Profe Luis, ya hice mi pago del Estratega PH por transferencia (${pl.nombre}${pl.pagos.length > 1 ? ", primer pago de " + fmt(hoy) : ""}). Te envío mi comprobante. Mi nombre completo es: `);
+}
+document.querySelectorAll(".plan").forEach(b => b.addEventListener("click", () => setPlan(b.dataset.plan)));
+setPlan("contado");
 document.querySelectorAll(".head").forEach(h => h.addEventListener("click", () => {
   const card = h.parentElement, open = !card.classList.contains("open");
   document.querySelectorAll(".opt").forEach(o => { o.classList.remove("open"); o.querySelector(".head").setAttribute("aria-expanded","false"); });
   if (open) { card.classList.add("open"); h.setAttribute("aria-expanded","true"); }
 }));
 document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", async () => {
-  const txt = String(vals[b.dataset.c]).replace(/\s/g, "");
+  const txt = String(tv[b.dataset.c] ?? vals[b.dataset.c]).replace(/\s/g, "");
   try { await navigator.clipboard.writeText(txt); }
   catch (e) {
     const r = document.createRange(); r.selectNodeContents(b.previousElementSibling.querySelector(".v"));
