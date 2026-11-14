@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diagnóstico PH 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--base:#0D0814;--neon:#BDFF00;--azul:#0066FF;--blanco:#FFFFFF;--g1:#888899;--g2:#AAAABC;--rojo:#E5202F;--amar:#D9A400;--nar:#F06A00;
+ --bg:#F3F3F6;--card:#FFFFFF;--line:#E2E2EA;--txt:#0D0814;--muted:#5C5C70;--soft:#F7F7FA}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;font-size:19px;line-height:1.45}
+body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.wrap{max-width:520px;margin:0 auto;padding:22px 20px 40px;min-height:100vh;display:flex;flex-direction:column}
+h1,h2,.bebas{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:.5px;line-height:1.02}
+h1{font-size:56px}
+h2{font-size:40px;margin-bottom:10px}
+/* resaltador verde (plumón) sobre claro; texto neón dentro de bloques oscuros */
+.neon{color:var(--txt);background:linear-gradient(transparent 52%,var(--neon) 52%,var(--neon) 92%,transparent 92%);padding:0 3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.big.neon{background:none;color:var(--azul);padding:0}
+.money .full .neon{color:var(--neon);background:none;padding:0}
+.neon.full{background:var(--neon);padding:0 6px;white-space:nowrap;display:inline-block}
+.dark .neon{color:var(--neon);background:none;padding:0}
+.azul{color:var(--azul)}.gris{color:var(--muted)}
+.small{font-size:15px;color:var(--muted)}
+.brand{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--azul);font-weight:700;margin-bottom:18px}
+.progress{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:8px}
+.progress>div{height:100%;background:var(--azul);transition:width .3s}
+.step{font-size:14px;color:var(--muted);margin-bottom:18px}
+.q{font-size:27px;font-weight:700;line-height:1.25;margin-bottom:8px}
+.hint{font-size:16px;color:var(--muted);margin-bottom:18px}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{width:100%;text-align:left;background:var(--card);border:2px solid var(--line);color:var(--txt);font:inherit;font-size:20px;padding:17px 18px;border-radius:14px;cursor:pointer;box-shadow:0 1px 3px rgba(13,8,20,.05)}
+.opt:active,.opt.sel{border-color:var(--azul);background:#EEF4FF;box-shadow:inset 6px 0 0 var(--neon)}
+select,input[type=number],input[type=text],input[type=tel]{width:100%;font:inherit;font-size:22px;padding:16px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--txt)}
+select:focus,input:focus{outline:none;border-color:var(--azul)}
+label.chk{display:flex;gap:12px;align-items:flex-start;margin-top:16px;font-size:18px;color:var(--muted);cursor:pointer}
+label.chk input{width:26px;height:26px;accent-color:var(--azul);flex:none;margin-top:2px}
+.btn{display:block;width:100%;text-align:center;border:none;font:inherit;font-weight:700;font-size:21px;padding:19px;border-radius:16px;background:var(--base);color:var(--neon);cursor:pointer;margin-top:22px;text-decoration:none}
+.dark .btn,.btn.verde{background:var(--neon);color:var(--base)}
+.btn[disabled]{opacity:.3}
+.btn.sec{background:transparent;color:var(--muted);border:2px solid var(--line);font-weight:500;font-size:17px;padding:13px;margin-top:12px}
+.back{background:none;border:none;color:var(--muted);font:inherit;font-size:16px;margin-bottom:10px;cursor:pointer;align-self:flex-start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:16px;box-shadow:0 4px 18px rgba(13,8,20,.06)}
+.big{font-family:'Bebas Neue';font-size:80px;line-height:.95}
+.zone{border-radius:18px;padding:20px;margin-top:16px;background:var(--card);box-shadow:0 4px 18px rgba(13,8,20,.06)}
+.zone.roja{background:#FFF0F1;border:2px solid var(--rojo)}.zone.roja .bebas:first-child{color:var(--rojo)}
+.zone.amar{background:#FFF8E1;border:2px solid var(--amar)}.zone.amar .bebas:first-child{color:#9A7300}
+.zone.nar{background:#FFF2E8;border:2px solid var(--nar)}.zone.nar .bebas:first-child{color:#C25500}
+.zone.verde{background:#F6FFE0;border:2px solid #8DC000}.zone.verde .bebas:first-child{color:#4F7000}
+.bar{margin:12px 0}
+.bar .lbl{display:flex;justify-content:space-between;font-size:16px;margin-bottom:5px}
+.bar .tr{height:12px;background:var(--line);border-radius:8px;overflow:hidden}
+.bar .fl{height:100%;border-radius:8px;background:var(--azul)}
+.bar.ex .fl{background:var(--neon);box-shadow:inset 0 0 0 1px #9CD000}
+table{width:100%;border-collapse:collapse;font-size:18px;margin-top:8px}
+td{padding:11px 4px;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right;font-weight:700}
+tr.meta td{background:var(--neon);font-weight:700}
+tr.meta td:first-child{border-radius:8px 0 0 8px;padding-left:10px}tr.meta td:last-child{border-radius:0 8px 8px 0;padding-right:10px}
+.money{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.money div{background:var(--soft);border-radius:12px;padding:12px;border:1px solid var(--line)}
+.money b{font-family:'Bebas Neue';font-size:36px;font-weight:400;display:block}
+.money .full{grid-column:1/-1;background:var(--base);color:#fff;border:none}.money .full .small{color:var(--g2)}.money .full b{color:var(--neon)}
+.note{border-left:5px solid var(--azul);padding:14px 16px;background:#EEF4FF;border-radius:10px;margin-top:16px;font-size:17px}
+.legal{font-size:13px;color:var(--muted);margin-top:18px}
+.err{color:var(--rojo);font-size:16px;margin-top:8px;min-height:20px}
+.center{text-align:center}
+.modal{position:fixed;inset:0;background:rgba(13,8,20,.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9}
+.mbox{background:var(--card);border-top:6px solid var(--neon);border-radius:20px;padding:22px;max-width:480px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.prob{margin-top:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-align:center}
+.pr{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:4px}
+.pr b{font-family:'Bebas Neue';font-weight:400;font-size:54px;display:block;line-height:1}.pr span{font-size:13px;color:var(--muted)}.pr .arr{font-size:30px;color:var(--azul)}
+.sector{background:var(--soft);border-radius:14px;padding:14px 16px;margin:12px 0 4px;border:1px solid var(--line)}
+.zone .sector,.zone .prob{background:rgba(255,255,255,.75)}
+/* bloques oscuros: oferta y carga */
+.dark{--txt:#FFFFFF}
+.offer{margin-top:22px;border-radius:22px;padding:22px 20px;background:var(--base);color:#fff;border:3px solid var(--neon);box-shadow:0 10px 40px rgba(13,8,20,.25)}
+.offer .gris,.offer .small{color:var(--g2)}
+.otop{display:inline-block;background:var(--neon);color:var(--base);font-weight:700;font-size:13px;letter-spacing:1px;padding:5px 10px;border-radius:8px}
+.offer h2{font-size:60px;margin-top:10px;color:#fff}
+.cd{margin-top:16px;background:#1A1324;border-radius:14px;padding:12px 14px;text-align:center}
+.cdn{display:flex;justify-content:center;gap:10px;margin-top:6px}
+.cdn div{min-width:62px}.cdn b{font-family:'Bebas Neue';font-weight:400;font-size:44px;display:block;color:var(--neon);line-height:1}.cdn span{font-size:12px;color:var(--g2)}
+.offer ul{list-style:none;margin-top:10px}
+.offer li{padding:6px 0 6px 28px;position:relative;font-size:18px}
+.offer li:before{content:"✓";position:absolute;left:0;color:var(--neon);font-weight:700}
+.price{margin-top:10px}.price s{color:var(--g1)}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+/* ================= CONFIGURACIÓN EDITABLE ================= */
+const CONFIG = {
+  pesos: { antiguedad: 35, examen: 30, actualizacion: 20, formacion: 15, equidad: 5, tope: 100 },
+  formacion: { "Licenciatura": 5, "Especialidad": 8, "Maestría": 10, "Doctorado": 15 },
+  bonoNormalBasica: 5,
+  reactivos: 90,
+  metaPercentil: 10,          // "zona de alta probabilidad" = top X% de tu grupo en 2025
+  metaSegundaPercentil: 30,   // "zona competitiva"
+  aciertosMinimos: 69,        // nadie baja de 23 puntos de examen
+  incentivo: { normal: 0.35, marginacion: 0.41 },
+  whatsapp: "522286070653",
+  curva: [[0,98],[3,95],[5,90],[8,85],[10,78],[15,55],[20,35],[30,15],[50,5],[100,1]], // % del grupo arriba de ti → probabilidad estimada (provisional)
+  probHoyMax: 75,
+  zonas: { verde: 10, amarilla: 60, naranja: 80 },   // aciertos que le faltan (sin el mínimo de 69)
+  datoEncuesta: "74.26",
+  inicio: "2026-12-16T19:30:00-06:00",
+  cargaSegundos: 8,   // arranque ESTRATEGA PH 2027 (hora CDMX)
+  programa: { nombre: "ESTRATEGA PH 2027", precioRef: "$16,000", preventa: "$6,987" }
+};
+/* Datos oficiales USICAMM PH 2025: [estado, sostenimiento, grupo, N, max, min, p5, p10, p20, p30, p50, p70, p90] */
+const DATA = [["ESTADO DE MEXICO","Federalizado",1,329,93.8,33.3,77.8,73.0,69.3,65.8,60.1,54.2,45.6],["ESTADO DE MEXICO","Federalizado",2,2027,100,20.9,78.5,76.1,72.2,69.3,63.9,57.0,47.5],["ESTADO DE MEXICO","Federalizado",3,661,90.3,33.1,80.1,77.0,74.0,70.7,64.4,56.5,46.7],["ESTADO DE MEXICO","Federalizado",4,382,93.9,45.2,86.5,83.8,81.1,78.7,73.4,65.9,58.0],["ESTADO DE MEXICO","Federalizado",5,162,96.2,52.2,90.2,88.8,86.5,83.8,77.9,70.1,62.5],["ESTADO DE MEXICO","Estatal",1,874,89.1,32.8,77.8,74.7,70.0,66.9,61.6,55.7,47.9],["ESTADO DE MEXICO","Estatal",2,3677,91.7,31.9,77.5,74.3,70.0,67.0,61.3,55.3,46.9],["ESTADO DE MEXICO","Estatal",3,974,94.7,28.8,82.0,78.1,73.5,70.1,65.2,59.8,49.3],["ESTADO DE MEXICO","Estatal",4,915,99.5,42.2,86.6,84.2,81.2,78.5,73.5,67.6,59.4],["ESTADO DE MEXICO","Estatal",5,331,97.8,49.6,89.4,87.6,84.3,82.1,77.4,71.6,63.1],["CIUDAD DE MEXICO","Federal",1,368,83.0,31.2,75.0,72.0,67.3,63.1,57.8,51.3,43.4],["CIUDAD DE MEXICO","Federal",2,1446,85.6,29.8,77.4,75.1,70.7,67.5,61.5,53.5,43.7],["CIUDAD DE MEXICO","Federal",3,876,88.3,26.6,78.7,75.5,71.3,67.2,61.3,54.6,45.5],["CIUDAD DE MEXICO","Federal",4,378,91.5,39.0,83.5,81.2,77.6,74.3,68.8,59.9,50.8],["CIUDAD DE MEXICO","Federal",5,104,97.1,56.7,88.4,87.4,84.6,82.5,77.8,70.0,62.7],["VERACRUZ","Federalizado",1,438,80.4,37.2,73.6,69.5,67.0,64.4,58.9,53.5,47.4],["VERACRUZ","Federalizado",2,1611,84.0,31.3,72.0,69.7,66.9,64.6,60.1,53.9,45.4],["VERACRUZ","Federalizado",3,1225,86.5,30.5,76.9,74.3,71.6,69.3,63.8,57.7,48.7],["VERACRUZ","Federalizado",4,313,90.1,40.4,80.0,77.3,74.3,71.0,65.8,59.8,53.1],["VERACRUZ","Federalizado",5,171,92.1,48.6,86.9,83.2,80.0,77.7,72.6,67.2,59.8],["VERACRUZ","Estatal",1,230,81.9,34.5,76.3,74.1,71.5,69.2,62.4,55.3,46.4],["VERACRUZ","Estatal",2,1199,84.1,31.6,76.4,76.4,72.5,70.4,66.0,59.8,50.4],["VERACRUZ","Estatal",3,248,81.0,38.9,75.8,73.6,70.2,68.1,62.8,55.7,46.7],["VERACRUZ","Estatal",4,248,90.8,39.6,80.4,78.7,75.0,73.2,67.9,61.3,56.0],["VERACRUZ","Estatal",5,38,86.7,49.5,83.2,81.7,77.7,76.1,70.7,63.6,57.2],["JALISCO","Federalizado",1,880,86.2,32.0,75.8,72.9,69.1,66.9,63.0,58.2,48.3],["JALISCO","Federalizado",2,2731,87.6,26.3,74.6,72.1,68.8,66.8,62.7,57.4,45.9],["JALISCO","Federalizado",3,917,88.7,27.6,78.2,75.9,71.9,69.4,63.9,57.8,46.5],["JALISCO","Federalizado",4,599,94.5,40.4,86.1,83.8,83.8,80.5,76.3,68.5,59.6],["JALISCO","Federalizado",5,177,93.2,40.8,91.6,88.9,85.9,84.2,80.1,75.3,64.0],["JALISCO","Estatal",1,445,82.5,35.0,72.3,68.4,65.9,64.1,60.7,55.9,46.2],["JALISCO","Estatal",2,2187,86.6,24.6,73.2,71.1,68.3,66.2,62.5,57.1,46.1],["JALISCO","Estatal",3,332,86.3,29.3,75.3,72.3,69.9,67.8,63.4,55.2,45.3],["JALISCO","Estatal",4,426,92.7,43.8,83.5,81.3,78.8,76.2,73.3,69.3,60.1],["JALISCO","Estatal",5,46,88.3,52.7,85.1,83.1,81.9,79.4,76.5,69.3,64.2],["PUEBLA","Federalizado",1,735,78.5,29.0,69.8,67.1,63.4,60.8,56.6,52.3,46.6],["PUEBLA","Federalizado",2,2058,81.9,27.1,69.9,66.8,63.2,60.5,55.8,50.6,43.2],["PUEBLA","Federalizado",3,604,82.3,24.8,74.5,71.6,67.8,65.1,59.4,52.8,44.5],["PUEBLA","Federalizado",4,523,89.1,42.0,78.7,76.6,74.0,71.3,65.7,60.0,53.0],["PUEBLA","Federalizado",5,132,91.9,42.6,86.6,85.6,81.6,78.9,75.2,68.7,57.5],["PUEBLA","Estatal",1,83,77.2,38.2,74.0,71.7,67.1,64.0,59.2,54.1,48.4],["PUEBLA","Estatal",2,456,80.9,31.6,73.5,71.3,67.1,64.6,59.3,53.0,44.0],["PUEBLA","Estatal",3,307,85.0,36.0,77.8,74.4,71.8,68.7,63.6,57.9,47.8],["PUEBLA","Estatal",4,81,83.4,44.6,80.3,78.9,76.6,75.1,68.5,61.3,55.8],["PUEBLA","Estatal",5,39,90.5,52.4,85.9,81.9,80.6,78.9,73.1,70.2,60.6],["QUINTANA ROO","Federalizado",1,185,84.4,33.3,75.4,73.0,69.5,67.2,62.3,56.7,49.5],["QUINTANA ROO","Federalizado",2,905,85.5,35.6,77.0,74.8,71.7,69.1,65.3,60.5,51.2],["QUINTANA ROO","Federalizado",3,270,88.7,41.0,78.9,77.3,74.1,71.9,68.1,63.7,54.6],["QUINTANA ROO","Federalizado",4,228,93.6,45.4,86.6,83.1,80.9,78.8,75.5,71.2,64.8],["QUINTANA ROO","Federalizado",5,39,96.4,59.1,94.6,89.8,86.6,84.1,78.6,75.1,70.1],["NUEVO LEON","Federalizado",1,876,79.5,34.4,71.6,70.4,67.9,66.1,61.6,55.7,46.1],["NUEVO LEON","Federalizado",2,2877,86.4,22.1,69.8,67.7,65.0,62.5,57.7,50.1,41.6],["NUEVO LEON","Federalizado",3,876,83.7,31.9,72.9,70.3,66.0,63.0,56.5,49.1,42.2],["NUEVO LEON","Federalizado",4,513,88.1,33.8,80.1,78.2,75.3,73.2,69.7,65.8,55.2],["NUEVO LEON","Federalizado",5,88,94.9,48.5,90.6,88.8,82.4,79.0,73.5,69.3,59.5],["NUEVO LEON","Estatal",1,313,82.1,25.5,75.1,72.6,69.6,66.9,61.5,54.8,45.6],["NUEVO LEON","Estatal",2,1390,82.8,31.6,71.7,68.9,65.9,63.2,58.2,51.4,42.9],["NUEVO LEON","Estatal",3,337,82.3,34.7,78.0,75.7,72.7,70.3,64.1,56.0,47.1],["NUEVO LEON","Estatal",4,258,86.6,41.1,81.9,80.0,76.7,74.5,71.3,66.3,55.8],["NUEVO LEON","Estatal",5,57,95.3,56.6,93.9,93.5,90.1,86.9,81.3,76.2,69.9],["AGUASCALIENTES","Federalizado",1,357,82.7,34.9,71,69,66,64.4,60.1,55.7,47.9],["AGUASCALIENTES","Federalizado",2,945,81.9,31.9,70.8,69,66.2,64.3,60.2,54.8,46.8],["AGUASCALIENTES","Federalizado",3,352,83.1,25.7,74.6,72,68.2,65.5,59.4,53.8,43.3],["AGUASCALIENTES","Federalizado",4,234,88.8,47.1,83.4,80.5,77.4,75.9,72,68.4,62.4],["AGUASCALIENTES","Federalizado",5,75,95.2,54.4,87,85.6,82.7,80.4,76.1,71.7,62],["BAJA CALIFORNIA","Federalizado",1,317,82.3,39,76.1,73,70.2,67.7,63.6,59.1,50.5],["BAJA CALIFORNIA","Federalizado",2,1117,84.6,29,76.1,73.6,71.1,68.3,63.6,56.8,46.6],["BAJA CALIFORNIA","Federalizado",3,189,87.2,33.4,78.9,75.8,72.8,70.2,65.7,60.1,50.2],["BAJA CALIFORNIA","Federalizado",4,168,91.6,40.4,84.1,80.8,78.6,76.2,73,66.7,57.8],["BAJA CALIFORNIA","Federalizado",5,51,90.8,55.6,89.8,87.8,84.2,81.9,77.1,74.5,61.5],["BAJA CALIFORNIA","Estatal",1,102,81.5,36.3,77.8,71.9,66.9,63.3,58.6,52.6,41.9],["BAJA CALIFORNIA","Estatal",2,572,81.6,29.9,74.9,72.3,67.5,64.5,57.9,51.9,41.4],["BAJA CALIFORNIA","Estatal",3,123,79.7,38.5,76.7,75.4,70.8,68.8,63.9,57.8,48.5],["BAJA CALIFORNIA","Estatal",4,107,92.1,49.5,84.8,81.3,79.4,76.3,71.5,65.9,55.5],["BAJA CALIFORNIA","Estatal",5,38,88.2,43.7,87.4,85.3,82.9,81.8,76.1,73.1,63.8],["BAJA CALIFORNIA SUR","Federalizado",1,128,75.9,33.6,72.5,70.3,68.2,66.6,62.8,58,46.8],["BAJA CALIFORNIA SUR","Federalizado",2,579,82.4,27,72.9,70.5,67.9,66.2,62.5,56.8,46.4],["BAJA CALIFORNIA SUR","Federalizado",3,198,81,26.5,74.2,70.3,67.9,66,62.1,56.1,44.4],["BAJA CALIFORNIA SUR","Federalizado",4,132,90.8,45.8,85.3,82.6,78.7,77.1,72,62.4,53.9],["BAJA CALIFORNIA SUR","Federalizado",5,29,90.1,57.3,90.1,86,84.2,82.6,75.1,67.2,60.8],["CAMPECHE","Federalizado",1,157,90.8,34.7,73.7,72,69.5,66.9,62.8,55.5,49.8],["CAMPECHE","Federalizado",2,608,88.1,28.7,76.6,74.5,71,68.8,65,60,47.9],["CAMPECHE","Federalizado",3,167,85.1,33.5,77.6,75.8,71.4,68.3,60.5,52.3,43],["CAMPECHE","Federalizado",4,168,87.1,44.6,81.9,78.4,75.5,73,67.7,63,53.3],["CAMPECHE","Federalizado",5,35,90.2,43.2,89.6,86.9,82.1,79.1,71,62.7,57.4],["COAHUILA","Federalizado",1,346,77.3,25.1,70.6,67.8,61.6,58.1,53.4,48.4,42.7],["COAHUILA","Federalizado",2,1242,83.9,24.8,72,69.4,65.7,62.5,57,51,42.6],["COAHUILA","Federalizado",3,365,85.8,28.6,75.1,72.6,69.6,67.1,61.2,55.4,47],["COAHUILA","Federalizado",4,496,88,39.2,81.7,79.6,76.8,75,71.5,67.5,57.6],["COAHUILA","Federalizado",5,85,96.4,47.5,89.8,86.9,85.1,82,77.7,73.5,63],["COAHUILA","Estatal",1,53,77.9,39,73.2,73,64.8,62,56.7,52.9,42.3],["COAHUILA","Estatal",2,183,89,27.5,78.3,75.7,71.2,68.4,61.8,55.2,44.5],["COAHUILA","Estatal",3,58,78.8,31.9,75.9,74.5,69.9,67.8,62.9,52.5,43],["COAHUILA","Estatal",4,78,89.4,50.6,87,84.6,82.7,79,75,68.1,59.9],["COLIMA","Federalizado",1,132,77,37.8,74.2,73,69.7,67.8,64.5,61.1,52.5],["COLIMA","Federalizado",2,696,86,31.6,74.2,72.1,70.1,68,64.8,60.1,50.8],["COLIMA","Federalizado",3,164,86.1,38.7,77.8,74.7,72.6,69.7,65,59.8,49.6],["COLIMA","Federalizado",4,131,93,45.7,84.7,82.2,80.2,77.9,74.7,71.9,65.5],["COLIMA","Estatal",2,37,79.1,42,78.6,74.2,72.1,69.8,66.4,59.3,49.6],["CHIAPAS","Federalizado",1,416,85,27.7,73.5,70.7,67.8,64.7,59.9,54.5,45.3],["CHIAPAS","Federalizado",2,1750,90.4,25.3,73.1,70.5,67.1,64.8,60.7,55,45.8],["CHIAPAS","Federalizado",3,118,90.6,33.2,76.7,75.1,72,69.4,62.2,55.6,48.2],["CHIAPAS","Federalizado",4,213,91,42.5,83,80.5,78.1,75.8,71,66.3,56.8],["CHIAPAS","Estatal",1,108,86,34.7,78.5,76.7,73.6,70.9,66.6,60,49],["CHIAPAS","Estatal",2,261,82.1,37.3,77.9,76,73.9,71.9,67.8,62.9,52.9],["CHIAPAS","Estatal",3,166,91.7,39.1,85.3,83.4,79.2,77.1,72.6,67.8,53.5],["CHIAPAS","Estatal",4,39,87.5,46.4,84.4,82,79.2,76.5,71.6,65.5,54.3],["CHIHUAHUA","Federalizado",1,483,81.3,27.3,73,70.2,67.2,65,58.7,54.1,46.2],["CHIHUAHUA","Federalizado",2,2063,83.5,28.1,74.2,71.9,68.9,66.3,61.5,55.8,46.6],["CHIHUAHUA","Federalizado",3,592,86.9,31.9,77.7,74.4,71.2,68.6,62.7,55.6,46.2],["CHIHUAHUA","Federalizado",4,725,94.5,40,83.7,82,79.1,76.5,72.7,67.6,58.5],["CHIHUAHUA","Federalizado",5,120,92.1,45.4,89.6,87,83.1,80.4,75.8,69.7,61.6],["CHIHUAHUA","Estatal",1,64,81.3,29.6,74.4,70.3,67.2,62.9,58.8,52.5,42.3],["CHIHUAHUA","Estatal",2,403,89.6,32.2,74.6,71.4,68.3,65.4,59.3,52,43.2],["CHIHUAHUA","Estatal",3,118,78.5,33.9,76.4,74.5,69.6,67.5,62.5,51.8,45],["CHIHUAHUA","Estatal",4,96,87.5,45.5,82.7,80.5,77.5,75.3,68.8,62.2,52.7],["DURANGO","Federalizado",1,260,84.7,33,73.1,68.2,65.3,61.8,56.7,51.9,45.2],["DURANGO","Federalizado",2,1269,86.5,29.1,73.1,70.1,67.4,64.9,60.3,55,46.2],["DURANGO","Federalizado",3,250,83.4,31.4,73.6,71.1,67.3,64.5,60,55.3,47.3],["DURANGO","Federalizado",4,299,88.9,48.4,84.3,82.1,78.8,77.1,73.4,68.8,58.2],["DURANGO","Federalizado",5,51,91.4,49.4,86.3,85.2,82.6,78.9,73.5,67.9,54.7],["DURANGO","Estatal",1,85,81.6,35.1,77.3,73.1,67.4,64.5,59.7,55,47.2],["DURANGO","Estatal",2,440,82.6,32.9,72.3,69.3,65.6,62.8,58.2,51.7,43.6],["DURANGO","Estatal",3,132,88,35.5,73.8,69.9,66.9,62.8,57.3,50.4,43.3],["DURANGO","Estatal",4,119,88.1,45,84.6,82.7,80,77.3,73.1,68.4,60.7],["DURANGO","Estatal",5,32,86.9,53.1,85.5,82.2,78.3,75.6,72.1,69,59.5],["GUANAJUATO","Federalizado",1,1039,83.5,23.6,71.8,68.7,65.7,63.4,58.9,53.7,45.6],["GUANAJUATO","Federalizado",2,3186,84.4,24.3,72,69.2,65.9,63.5,59.2,54,44.3],["GUANAJUATO","Federalizado",3,753,86,25.3,74,72,68,66.2,61.7,54.6,45.6],["GUANAJUATO","Federalizado",4,802,96.2,45.5,82.5,80.7,76.8,74.8,71.3,67.6,61.1],["GUANAJUATO","Federalizado",5,124,93.9,54.4,88.8,85.3,82.3,79.8,74.9,70,62.2],["GUANAJUATO","Estatal",1,180,78.4,33.7,70.2,65.1,59.6,56.8,52.3,47.9,43.4],["GUANAJUATO","Estatal",2,823,81.2,26.4,71.5,68.6,64.4,61.3,56.3,50.5,41.9],["GUANAJUATO","Estatal",3,852,84,24.9,73,70.7,67.3,64.3,59.7,54.1,45.4],["GUANAJUATO","Estatal",4,177,88.1,49.1,80.6,78.5,75.3,72.9,69.3,66,58.6],["GUANAJUATO","Estatal",5,166,95.3,47.4,89.9,87,83.1,80.8,77,71.9,66.2],["GUERRERO","Federalizado",1,417,82.3,24.3,73.2,70.1,67.4,65.1,60.8,55,48],["GUERRERO","Federalizado",2,1190,89.1,27.5,73.2,70.8,67.4,65,60.8,54.8,46.8],["GUERRERO","Federalizado",3,599,87.8,34.9,75.6,72.4,69.3,67.1,62.5,56.6,46.9],["GUERRERO","Federalizado",4,165,88.2,36,85.2,82.8,81.2,78.8,75.1,69.4,61.5],["GUERRERO","Federalizado",5,44,92.8,38.4,90.3,85.9,82.4,80.2,76.5,69.9,56.1],["GUERRERO","Estatal",1,34,78.5,37.9,75.6,73.4,70.4,67.1,61.2,55.2,44.3],["GUERRERO","Estatal",2,97,83.1,29.8,78.6,74.4,72,69.9,65,58.4,52.5],["GUERRERO","Estatal",3,83,88.5,44.8,81.9,78.1,73.9,70.7,67.1,61.6,53.8],["GUERRERO","Estatal",5,33,86.4,58.3,85.6,85.2,84.2,82.5,76.1,70.8,59.4],["HIDALGO","Federalizado",1,385,86.3,33.1,72.5,69.1,67,64.9,60,54.8,46.9],["HIDALGO","Federalizado",2,1634,91.1,28,72.7,69.9,66.7,64.5,60,54.3,47.4],["HIDALGO","Federalizado",3,622,88.8,33.3,78.5,74.8,71.8,69,64.9,59.6,50],["HIDALGO","Federalizado",4,327,92.2,38.5,82.6,80.2,76.8,74.2,69.3,64.7,56.3],["HIDALGO","Federalizado",5,74,94.8,52.4,90.3,88,84.7,82.7,76.8,68.4,59.1],["MICHOACAN","Federalizado",1,221,77.9,30,74.6,72.4,67.2,65.5,58.8,51.1,43.1],["MICHOACAN","Federalizado",2,748,87.6,30.6,74.5,71.7,68.2,65.7,61.4,55.2,44.5],["MICHOACAN","Federalizado",3,223,86.2,32.2,75.8,72.7,68.3,64.6,58.6,49.9,42.6],["MICHOACAN","Federalizado",4,113,88,32.9,82.9,79.8,76.1,72.9,69.3,62.6,56.5],["MICHOACAN","Estatal",1,39,79.3,34.6,78.3,76.6,73,68.6,62.8,58.5,49.6],["MICHOACAN","Estatal",2,117,86.4,42.5,79.1,75.1,72.5,69.1,65.4,56.6,48.5],["MICHOACAN","Estatal",3,58,84,38.8,81,78.4,72.8,64.7,56.1,50.3,45.3],["MORELOS","Federalizado",1,389,85.6,28.4,77.7,75.1,71.6,69.2,65.6,61,51.5],["MORELOS","Federalizado",2,1744,88.8,24.6,75.1,72.1,68.9,66.9,63.9,60.4,49.6],["MORELOS","Federalizado",3,653,88.6,33.4,80.1,77.2,74.7,72.6,69.2,65.2,52.5],["MORELOS","Federalizado",4,339,89.3,40.7,83.9,81.7,78.8,75.9,72.5,68.6,62.1],["MORELOS","Federalizado",5,84,97.1,50.7,91.1,88.9,86.3,84.7,81.7,75.1,66.6],["NAYARIT","Federalizado",1,247,81.4,38.8,76.5,73.5,70.7,67.9,63.8,58.2,47.3],["NAYARIT","Federalizado",2,720,85.6,23.9,77.4,74.1,71.4,69.2,65.6,60.6,50.9],["NAYARIT","Federalizado",3,231,82.3,33.5,78.7,75.9,72.1,68.4,63.5,58,46.6],["NAYARIT","Federalizado",4,299,92.1,44.1,84.7,81.9,79.4,77.3,73.5,69.3,61.4],["NAYARIT","Federalizado",5,46,95.3,52.9,94.6,88.3,86,83.3,80.6,73.8,65.3],["NAYARIT","Estatal",2,31,83.2,37.9,80.8,80,77.9,74.7,61.4,53.6,43.2],["NAYARIT","Estatal",3,120,89.6,32.7,83.7,81.3,77.4,73.2,65.7,58.3,43.2],["QUERETARO","Federalizado",1,219,73.9,34.6,68.6,67.1,64.1,61.9,56.8,51.7,45.5],["QUERETARO","Federalizado",2,782,79.4,26.1,70.7,68.3,65.2,63,59.2,52.9,43.8],["QUERETARO","Federalizado",3,199,82.8,35.8,74.7,72.6,69.4,66,60.6,55.8,46.5],["QUERETARO","Federalizado",4,199,86.8,44.6,81.2,76.8,74.7,72.9,69.1,64.8,56.4],["QUERETARO","Federalizado",5,60,87.8,51.7,86.2,84.6,81.9,79.4,76.7,72.4,62.4],["SAN LUIS POTOSI","Federalizado",1,484,80.9,29.6,71.3,68.5,63.8,60.2,54.9,49.6,42.3],["SAN LUIS POTOSI","Federalizado",2,1368,81.7,21.1,72.5,69.8,66,63,57,51.7,44.3],["SAN LUIS POTOSI","Federalizado",3,323,93.3,27,74.7,70.8,67.8,64.2,58.8,53,43.6],["SAN LUIS POTOSI","Federalizado",4,355,89.8,33.4,83.3,80.6,77.5,75.1,70.7,64,55],["SAN LUIS POTOSI","Federalizado",5,30,92.5,51,85.7,85.4,83,79.6,73.7,67,56.6],["SAN LUIS POTOSI","Estatal",2,76,71.6,32,68.8,65.7,58.5,56.6,49.6,45.5,40.5],["SAN LUIS POTOSI","Estatal",3,202,86.3,27,79.4,77.8,73.3,70,61.3,56.2,48.5],["SINALOA","Federalizado",1,756,88,29.1,75,72.7,69.7,67.7,64.2,60,49.7],["SINALOA","Federalizado",2,2143,86.2,29.1,74.4,71.1,67.9,65.3,61.3,56.3,46.5],["SINALOA","Federalizado",3,388,87,20.8,78.6,75.3,72.5,70.6,65,57,45.2],["SINALOA","Federalizado",4,387,93.1,39.7,84,81,78.7,76.8,72.7,69,60],["SINALOA","Federalizado",5,102,93.9,34.1,90.5,88.5,83.1,80.8,76.9,70.6,55],["SINALOA","Estatal",1,43,78.3,42.4,76.5,70.3,67.1,65.1,59.8,54.6,48.7],["SINALOA","Estatal",2,615,86.9,36.6,75.6,73.5,70.8,68.5,64.5,59.6,49.7],["SINALOA","Estatal",3,77,87.1,43.9,79.3,76.7,74.5,71,64.3,57.7,49.6],["SINALOA","Estatal",4,93,91.3,42.3,87.7,85.6,81.5,80.5,77.2,71.7,60.6],["SONORA","Federalizado",1,373,82.3,33,73.5,71,67.7,65.8,61.4,56.1,47.1],["SONORA","Federalizado",2,1361,90.5,27.4,73.2,70.7,68,65.9,62.2,57.7,49.5],["SONORA","Federalizado",3,271,79.5,35.9,77,76.1,71.3,68.9,64.4,56.7,46.7],["SONORA","Federalizado",4,384,89,41.1,80.9,79.5,76.9,75,71.5,67.6,59.1],["SONORA","Federalizado",5,77,92.1,38.9,88.9,86.3,84.4,80.8,75.9,71.4,62],["SONORA","Estatal",1,50,78.5,42.2,73,71.6,67,64.1,61.3,57.5,52],["SONORA","Estatal",2,646,81.7,23.8,73.5,71,68.1,65.9,62.3,57.7,49.3],["SONORA","Estatal",3,191,82.9,22.7,74.5,72.9,69.2,66.9,62.8,59.7,47.4],["SONORA","Estatal",4,138,89.8,42,83.1,82.2,78.8,76,73.3,69.8,63.2],["SONORA","Estatal",5,31,95.2,44.3,87.8,86.7,84.2,82.3,77.6,74.6,67.9],["TABASCO","Federalizado",1,231,86.3,34.2,75.7,72.7,68.6,65.5,59.4,53.1,47.6],["TABASCO","Federalizado",2,1436,84.1,28.1,74.2,71.6,69.2,67.1,63.3,58.5,49.6],["TABASCO","Federalizado",3,216,83.9,39.6,76.4,74.4,71.8,68.5,65.2,60,51.2],["TABASCO","Federalizado",4,291,91.9,36.9,85.2,83.1,80.5,78.7,73.9,68.7,60.2],["TABASCO","Estatal",1,101,80.3,35.6,76.5,73.9,70.2,67.5,63.7,58.8,49.3],["TABASCO","Estatal",2,304,88.1,34.3,78,75.2,72.3,69.5,65.5,61.1,53.1],["TABASCO","Estatal",3,302,90.5,37.3,81.1,78.9,76.2,73.6,69.9,65.6,54.5],["TABASCO","Estatal",4,108,94.4,46.4,88.3,87,84.1,80.6,74.4,69.5,61],["TABASCO","Estatal",5,39,95.6,58.8,93.5,92.3,89.4,87.6,84.4,80.5,69.2],["TAMAULIPAS","Federalizado",1,293,80.1,35.9,72.1,70.1,66.8,64.7,60.8,55.2,46.9],["TAMAULIPAS","Federalizado",2,1288,84.6,30.9,74.4,71.5,68.7,66.5,62.1,55.5,44.8],["TAMAULIPAS","Federalizado",3,323,84.3,31.4,78.4,74.9,71.9,69,63.4,55.9,47.7],["TAMAULIPAS","Federalizado",4,292,92.3,38.2,85,82.3,79,76.1,72,65.8,52.1],["TAMAULIPAS","Federalizado",5,74,93.1,46.5,88.6,84.5,81.1,79.8,75.4,71.1,55.8],["TAMAULIPAS","Estatal",1,31,76.7,36.2,76.7,72.6,66.4,65.1,60.7,52,46.8],["TAMAULIPAS","Estatal",2,320,85.8,34.1,75.8,73.8,71.1,69.1,64.5,58.6,48.5],["TAMAULIPAS","Estatal",4,63,92.3,47.4,82.6,80.8,78.4,76.1,74,69.4,58.7],["TLAXCALA","Federalizado",1,141,83.6,36.9,72.2,70.8,68,66.8,62.8,59.4,49.7],["TLAXCALA","Federalizado",2,496,84.1,24.3,72.4,70.3,67.9,66.2,62.4,57.7,48.8],["TLAXCALA","Federalizado",3,209,86.1,35.6,77.6,73.4,69.6,67.2,62.7,58.8,50.7],["TLAXCALA","Federalizado",4,128,90.9,44.5,84.4,81.2,78.6,76.4,71.9,67.2,57.4],["TLAXCALA","Estatal",2,36,83.8,34.3,78.7,72.1,66.4,62.9,57.8,52.7,40.5],["YUCATAN","Federalizado",1,394,79.7,32.4,73.7,71.4,68.5,66.9,61.9,56.3,47.6],["YUCATAN","Federalizado",2,1377,85.4,25.9,74.9,72.8,70.3,68.2,64.3,59,50.1],["YUCATAN","Federalizado",3,251,89.5,35,79.3,76.7,72.1,70,63.8,57.7,49.4],["YUCATAN","Federalizado",4,288,91.3,41.9,84.3,82.4,80.2,78.3,74.2,70.4,62.9],["YUCATAN","Federalizado",5,34,97.6,60,93.5,93.1,88.8,87.8,80.5,73.7,61.8],["YUCATAN","Estatal",1,70,76.3,32.1,73,69.7,66.1,62.2,55.8,49.4,42.4],["YUCATAN","Estatal",2,321,81,35.3,75.3,72.6,69.9,67.8,62.8,57.9,48.8],["YUCATAN","Estatal",3,135,85.3,28.1,78,75.5,72.7,70.5,64.9,60,50],["YUCATAN","Estatal",4,51,89.7,40.9,87.9,84.8,80.8,77.8,72.4,66.6,59.8],["ZACATECAS","Federalizado",1,318,81.7,37,75.2,72.7,69.3,68.2,64,58.7,51.5],["ZACATECAS","Federalizado",2,1210,89,30.4,76.4,73.8,70.1,67.9,64.1,60.1,52.1],["ZACATECAS","Federalizado",3,298,89.8,34.9,78.3,74.4,71.3,69,63.9,58.7,50.2],["ZACATECAS","Federalizado",4,393,95.3,43,84.8,83.2,80,79.1,75.5,72.5,64.8]];
+/* ========================================================== */
+
+const ESTADOS=["AGUASCALIENTES","BAJA CALIFORNIA","BAJA CALIFORNIA SUR","CAMPECHE","CHIAPAS","CHIHUAHUA","CIUDAD DE MEXICO","COAHUILA","COLIMA","DURANGO","ESTADO DE MEXICO","GUANAJUATO","GUERRERO","HIDALGO","JALISCO","MICHOACAN","MORELOS","NAYARIT","NUEVO LEON","OAXACA","PUEBLA","QUERETARO","QUINTANA ROO","SAN LUIS POTOSI","SINALOA","SONORA","TABASCO","TAMAULIPAS","TLAXCALA","VERACRUZ","YUCATAN","ZACATECAS"];
+const titulo=s=>s.toLowerCase().replace(/(^|\s)\S/g,m=>m.toUpperCase()).replace("De ","de ").replace("Ciudad de Mexico","Ciudad de México").replace("Estado de Mexico","Estado de México").replace("Michoacan","Michoacán").replace("Nuevo Leon","Nuevo León").replace("Queretaro","Querétaro").replace("San Luis Potosi","San Luis Potosí").replace("Yucatan","Yucatán");
+const NIVELES={"Inicial":1,"Preescolar":1,"Preescolar indígena":1,"Primaria":2,"Primaria indígena":2,"Educación especial":2,"Educación para adultos":2,"Inglés (preescolar o primaria)":2,"Secundaria general":3,"Secundaria técnica":3,"Telesecundaria":3,"Educación física":3};
+const FUNC_DOC=["Docente frente a grupo","Técnico docente","ATP por reconocimiento o con KW"];
+const FUNC_DIR=["Asesor Técnico Pedagógico (ATP)","Dirección o subdirección","Supervisión, inspección o jefatura"];
+const HORAS=[["No tengo cursos del catálogo",0],["De 20 a 50 horas",35],["De 51 a 100 horas",75],["De 101 a 150 horas",125],["De 151 a 199 horas",175],["200 horas o más",200]];
+const PREVIO=[["Menos de 50 aciertos",45],["Entre 50 y 64 aciertos",57],["Entre 65 y 74 aciertos",70],["75 aciertos o más",79],["No recuerdo mi resultado",null]];
+const AUTO=[["Nada preparado, no sé por dónde empezar",45],["Poco, he leído algo pero sin método",52],["Regular, conozco algunos temas",58],["Bien, he estudiado con guía",65],["Muy bien, ya resuelvo simuladores",72]];
+
+const A={}; let paso=0;
+const PASOS=["estado","funcion","nivel","sosten","anios","grado","horas","incentivo","examen","sueldo"];
+const app=document.getElementById('app');
+const fmt=n=>"$"+Math.round(n).toLocaleString('es-MX');
+const r1=n=>(Math.round(n*10)/10).toFixed(1);
+
+function antig(y){ if(y>=30) return 35; if(y<2) return 0;
+  const seg=[[2,8,10,15.35],[9,19,16.25,25.17],[20,29,26.07,34.10]];
+  for(const [a,b,pa,pb] of seg){ if(y>=a&&y<=b) return pa+(pb-pa)*(y-a)/(b-a); } return 10; }
+function actual(h){ if(h<20) return 0; if(h>=200) return 20;
+  const seg=[[20,50,5,7.5],[51,100,7.58,11.66],[101,150,11.75,15.83],[151,200,15.91,20]];
+  for(const [a,b,pa,pb] of seg){ if(h>=a&&h<=b) return pa+(pb-pa)*(h-a)/(b-a); } return 0; }
+function grupo(){ const g=NIVELES[A.nivel]; return FUNC_DIR.includes(A.funcion) ? (g===3?5:4) : g; }
+function fila(){
+  const g=grupo(); const est=A.estado; const so=A.sosten;
+  const ok=r=>r[3]>=30;
+  let rows=DATA.filter(r=>r[0]===est&&r[2]===g&&ok(r));
+  let r= rows.find(x=> so==="Estatal" ? x[1]==="Estatal" : x[1]!=="Estatal") || rows[0];
+  if(r) return {r, local:true};
+  const all=DATA.filter(x=>x[2]===g&&ok(x)); const n=all.reduce((s,x)=>s+x[3],0);
+  const avg=[ "NACIONAL","",g,n ]; for(let i=4;i<13;i++) avg.push(all.reduce((s,x)=>s+x[i]*x[3],0)/n);
+  return {r:avg, local:false};
+}
+function pctKey(p){ return {5:6,10:7,20:8,30:9,50:10,70:11,90:12}[p]; }
+function topPct(score,r){ // % de participantes que quedan ARRIBA de ese puntaje
+  const pts=[[0,r[4]],[5,r[6]],[10,r[7]],[20,r[8]],[30,r[9]],[50,r[10]],[70,r[11]],[90,r[12]],[100,r[5]]];
+  if(score>=pts[0][1]) return 0; if(score<=pts[8][1]) return 100;
+  for(let i=0;i<8;i++){ const [pa,sa]=pts[i],[pb,sb]=pts[i+1]; if(score<=sa&&score>=sb){ return sa===sb?pa:pa+(pb-pa)*(sa-score)/(sa-sb);} } return 50; }
+function calc(){
+  const fA=antig(A.anios), fF=Math.min(15,CONFIG.formacion[A.grado]+(A.normal?CONFIG.bonoNormalBasica:0)), fC=actual(A.horas), fE=A.incentivo?0:CONFIG.pesos.equidad;
+  const fijos=fA+fF+fC+fE; const pa=CONFIG.pesos.examen/CONFIG.reactivos;
+  const hoyAc = A.previo!=null ? A.previo+Math.max(-10,Math.min(3,A.auto-A.previo)) : (A.part ? Math.min(65,A.auto) : A.auto); const hoyEx=hoyAc*pa;
+  const {r,local}=fila();
+  const meta=r[pctKey(CONFIG.metaPercentil)], meta2=r[pctKey(CONFIG.metaSegundaPercentil)];
+  const need=m=>Math.ceil((m-fijos)/pa);
+  const n1=need(meta), n2=need(meta2);
+  const tot=a=>Math.min(CONFIG.pesos.tope,fijos+a*pa);
+  const sup=a=>Math.max(0,Math.min(100,100-topPct(tot(a),r)));
+  const pctInc=A.marg?CONFIG.incentivo.marginacion:CONFIG.incentivo.normal; const mes=A.sueldo*pctInc;
+  return {fA,fF,fC,fE,fijos,hoyAc,hoyEx,r,local,meta,meta2,n1,n2,tot,sup,mes,pctInc};
+}
+
+/* ---------- Render ---------- */
+function intro(){
+  app.innerHTML=`<div class="brand">Profe Luis Valencia · Estratega PH</div>
+  <h1>DIAGNÓSTICO <span class="neon full">PH 2027</span></h1>
+  <p style="margin:16px 0 8px">Descubre <span class="neon"><b>en menos de 3 minutos</b></span> <b>cuántos aciertos necesitas</b> en el examen para entrar a la zona de alta probabilidad de ganar tu Promoción Horizontal.</p>
+  <div class="note">Comparamos tu perfil con los <b>resultados oficiales de USICAMM del último proceso</b> de docentes de tu mismo estado, función y nivel.</div>
+  <button class="btn" onclick="ir(0)">Empezar mi diagnóstico</button>
+  <p class="small center" style="margin-top:12px">10 preguntas · 1 por pantalla</p>`;
+}
+let SUB=null;
+function atras(){ if(paso===8&&SUB==='veces') return ir(8); if(paso===8&&SUB==='previo') return ir(8,'veces'); if(paso===8&&SUB==='auto') return A.part?ir(8,'previo'):ir(8); if(paso===9) return ir(8,'auto'); if(paso===0) return intro(); ir(paso-1); }
+function marco(i,html,puede){
+  app.innerHTML=`<button class="back" onclick="atras()">← ${i>0||SUB?'Atrás':'Inicio'}</button>
+  <div class="progress"><div style="width:${(i+1)*10}%"></div></div>
+  <div class="step">Pregunta ${i+1} de 10</div>${html}`;
+}
+function opciones(lista,key,val){ return `<div class="opts">${lista.map((o,ix)=>`<button class="opt ${A[key+'_i']===ix?'sel':''}" onclick="pick('${key}',${ix})">${Array.isArray(o)?o[0]:o}</button>`).join('')}</div>`; }
+let LISTA={};
+function pick(key,ix){ const o=LISTA[key][ix]; A[key+'_i']=ix;
+  if(key==='funcion'){A.funcion=o;}
+  else if(key==='nivel'){A.nivel=o;}
+  else if(key==='sosten'){A.sosten=o;}
+  else if(key==='grado'){A.grado=o; ir(paso); return;}
+  else if(key==='horas'){A.horas=o[1];A.horasTxt=o[0];}
+  else if(key==='incentivo'){A.incentivo=o==='Sí';}
+  else if(key==='part'){ A.part=ix===1; if(!A.part){A.previo=null;A.intentos=0;A.previo_i=undefined;} setTimeout(()=>ir(8,A.part?'veces':'auto'),150); return; }
+  else if(key==='veces'){ A.intentos=ix+1; setTimeout(()=>ir(8,'previo'),150); return; }
+  else if(key==='previo'){A.previo=o[1];A.previoTxt=o[0]; setTimeout(()=>ir(8,'auto'),150); return;}
+  else if(key==='auto'){A.auto=o[1];}
+  setTimeout(()=>ir(paso+1),150);
+}
+function ir(i,sub){ paso=i; SUB=sub||null; window.scrollTo(0,0);
+  if(i>=10) return datos();
+  const k=PASOS[i];
+  if(k==='estado'){ marco(i,`<div class="q">¿En qué estado trabajas?</div><div class="hint">El estado de tu plaza.</div>
+    <select id="est"><option value="">Selecciona tu estado</option>${ESTADOS.map(e=>`<option value="${e}" ${A.estado===e?'selected':''}>${titulo(e)}</option>`).join('')}</select>
+    <button class="btn" onclick="const v=document.getElementById('est').value; if(v){A.estado=v; ir(1)}">Siguiente</button>`); }
+  if(k==='funcion'){ LISTA.funcion=[...FUNC_DOC,...FUNC_DIR]; marco(i,`<div class="q">¿Cuál es tu función?</div><div class="hint">La que desempeñas en la plaza con la que vas a participar.</div>${opciones(LISTA.funcion,'funcion')}`); }
+  if(k==='nivel'){ LISTA.nivel=Object.keys(NIVELES); marco(i,`<div class="q">¿En qué nivel o servicio?</div><div class="hint">Si eres directivo, ATP o supervisor: el nivel de tu zona o escuela.</div>${opciones(LISTA.nivel,'nivel')}`); }
+  if(k==='sosten'){ LISTA.sosten=["Federal o federalizado","Estatal","No estoy seguro"]; marco(i,`<div class="q">¿Tu plaza es federal o estatal?</div><div class="hint">Viene en tu talón de pago o en tu nombramiento.</div>${opciones(LISTA.sosten,'sosten')}`); }
+  if(k==='anios'){ marco(i,`<div class="q">¿Cuántos años de servicio tienes?</div><div class="hint">Años completos en educación pública.</div>
+    <input type="number" id="an" inputmode="numeric" min="0" max="50" placeholder="Ej. 12" value="${A.anios??''}"><div class="err" id="e"></div>
+    <button class="btn" onclick="const v=+document.getElementById('an').value; if(v>=2&&v<=50){A.anios=v; ir(5)} else document.getElementById('e').textContent='Escribe tus años de servicio (mínimo 2).'">Siguiente</button>`); }
+  if(k==='grado'){ LISTA.grado=Object.keys(CONFIG.formacion); marco(i,`<div class="q">¿Cuál es tu grado máximo con título o cédula?</div>
+    ${opciones(LISTA.grado,'grado')}
+    <label class="chk"><input type="checkbox" id="nb" ${A.normal?'checked':''} onchange="A.normal=this.checked"> También estudié la Normal Básica</label>
+    <button class="btn" ${A.grado?'':'disabled'} onclick="if(A.grado) ir(6)">Siguiente</button>`); }
+  if(k==='horas'){ LISTA.horas=HORAS; marco(i,`<div class="q">¿Cuántas horas de cursos del catálogo USICAMM tienes?</div><div class="hint">Solo cuentan los cursos de los catálogos oficiales, de 20 horas o más cada uno.</div>${opciones(HORAS,'horas',o=>o[1])}`); }
+  if(k==='incentivo'){ LISTA.incentivo=["Sí","No"]; marco(i,`<div class="q">¿Tienes Carrera Magisterial, K1, KW u O1?</div><div class="hint">Si no tienes ninguno, sumas 5 puntos de equidad.</div>${opciones(LISTA.incentivo,'incentivo',o=>o==='Sí')}`); }
+  if(k==='examen'){
+    if(sub==='auto'){ LISTA.auto=AUTO; marco(i,`<div class="q">¿Qué tan preparado te sientes hoy para el examen?</div><div class="hint">Sé honesto: con esto estimamos tu punto de partida.</div>${opciones(AUTO,'auto')}`); }
+    else if(sub==='veces'){ LISTA.veces=['1 vez','2 veces','3 veces','4 veces','5 veces','6 veces o más']; marco(i,`<div class="q">¿Cuántas veces lo has intentado antes?</div>${opciones(LISTA.veces,'veces')}`); }
+    else if(sub==='previo'){ LISTA.previo=PREVIO; marco(i,`<div class="q">¿Cuántos aciertos sacaste en tu último intento?</div>${opciones(PREVIO,'previo')}`); }
+    else { LISTA.part=['Este será mi primer intento','Sí, ya he participado antes']; marco(i,`<div class="q">¿Has participado anteriormente en Promoción Horizontal, o este será tu primer intento?</div>${opciones(LISTA.part,'part')}`); }
+  }
+  if(k==='sueldo'){ marco(i,`<div class="q">¿Cuál es tu sueldo tabular mensual?</div><div class="hint">Concepto 07 (o su equivalente estatal), en bruto, antes de deducciones. Con esto calculamos cuánto ganas con tu Promoción.</div>
+    <input type="number" id="su" inputmode="numeric" placeholder="Ej. 14500" value="${A.sueldo??''}">
+    <label class="chk"><input type="checkbox" id="mg" ${A.marg?'checked':''}> Mi escuela está en zona de alta pobreza o marginación</label><div class="err" id="e"></div>
+    <button class="btn" onclick="const v=+document.getElementById('su').value; if(v>=3000&&v<=200000){A.sueldo=v; A.marg=document.getElementById('mg').checked; confirmaSueldo()} else document.getElementById('e').textContent='Escribe tu sueldo mensual en pesos.'">Ver mi diagnóstico</button>`); }
+}
+function confirmaSueldo(){
+  const ov=document.createElement('div'); ov.className='modal';
+  ov.innerHTML=`<div class="mbox"><div class="bebas" style="font-size:34px">CONFIRMA TU SUELDO</div>
+  <p style="margin:10px 0 6px">¿<b class="neon">${fmt(A.sueldo)}</b> es tu sueldo <b>SIN deducciones</b> (bruto, concepto 07)?</p>
+  <p class="small">Si pusiste lo que te llega a la cuenta (con descuentos), corrígelo para que tu estudio sea exacto.</p>
+  <button class="btn" id="mOk">Sí, es mi sueldo sin deducciones</button>
+  <button class="btn sec" id="mNo">No, quiero corregirlo</button></div>`;
+  document.body.appendChild(ov);
+  ov.querySelector('#mOk').onclick=()=>{ov.remove(); ir(10);};
+  ov.querySelector('#mNo').onclick=()=>{ov.remove(); const i=document.getElementById('su'); if(i){i.focus(); i.select();}};
+}
+function datos(){ window.scrollTo(0,0);
+  app.innerHTML=`<button class="back" onclick="ir(9)">← Atrás</button>
+  <h2>TU DIAGNÓSTICO <span class="neon">ESTÁ LISTO</span></h2>
+  <p class="gris" style="margin-bottom:18px">¿A nombre de quién lo generamos?</p>
+  <input type="text" id="nom" placeholder="Tu nombre" value="${A.nombre??''}" autocomplete="given-name">
+  <div style="height:12px"></div>
+  <input type="tel" id="wa" inputmode="tel" placeholder="Tu WhatsApp (10 dígitos)" value="${A.wa??''}" autocomplete="tel">
+  <div class="err" id="e"></div>
+  <button class="btn" onclick="enviar()">Ver mi resultado</button>
+  <p class="small center" style="margin-top:12px">Tus datos son confidenciales. Solo los usa el equipo del Profe Luis Valencia.</p>`; }
+function enviar(){ const n=document.getElementById('nom').value.trim(), w=document.getElementById('wa').value.replace(/\D/g,'');
+  if(n.length<2) return document.getElementById('e').textContent='Escribe tu nombre.';
+  if(w.length!==10) return document.getElementById('e').textContent='Escribe tu WhatsApp a 10 dígitos.';
+  A.nombre=n; A.wa=w;
+  const total=DATA.filter(r=>r[3]>=30).reduce((s,r)=>s+r[3],0);
+  const ms=CONFIG.cargaSegundos*1000;
+  app.innerHTML=`<div class="offer dark" style="margin-top:6px;text-align:center">
+    <div class="otop">MIENTRAS PREPARAMOS TU RESULTADO…</div>
+    <p class="gris" style="margin-top:14px">Recuerda: nuestro entrenamiento está por comenzar</p>
+    <h2 style="font-size:60px">${CONFIG.programa.nombre}</h2>
+    <p style="margin-top:6px">La estrategia completa para ganar tu Promoción Horizontal.</p>
+    <div class="cd"><div class="small" style="color:var(--txt)">Iniciamos el 16 de diciembre · 7:30 pm</div><div id="cd" class="cdn"></div></div>
+  </div>
+  <div class="progress" style="margin-top:26px;height:10px"><div id="pb" style="width:0%;transition:width ${ms}ms linear"></div></div>
+  <p class="center gris" id="lt" style="margin-top:10px">Comparando tu perfil con <b class="neon">${total.toLocaleString('es-MX')}</b> resultados oficiales de USICAMM…</p>`;
+  tick(); clearInterval(CDT); CDT=setInterval(tick,1000);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{const b=document.getElementById('pb'); if(b) b.style.width='100%';}));
+  const fr=['Ubicando tu grupo de dictaminación…','Calculando tus puntos fijos…','Proyectando tu lugar en la lista…','Tu resultado está listo'];
+  fr.forEach((f,ix)=>setTimeout(()=>{const l=document.getElementById('lt'); if(l) l.textContent=f;},(ix+1)*ms/(fr.length+1)));
+  guardar();
+  setTimeout(resultado,ms);
+}
+const SUPA={url:"https://zdblpcgyqltjpibftgng.supabase.co",key:"sb_publishable_N2UlWlViNMgDPga2CvLIPw_hGM-2Vlh",tabla:"diagnosticos_ph27"};
+function guardar(){
+  try{
+    const c=calc(); const raw=Math.max(0,c.n1); const Z=CONFIG.zonas; const meta=Math.min(Math.max(CONFIG.aciertosMinimos,c.n1),CONFIG.reactivos);
+    const zona=raw<=Z.verde?'verde':raw<=Z.amarilla?'amarilla':raw<=Z.naranja?'naranja':'roja';
+    const pa=CONFIG.pesos.examen/CONFIG.reactivos, pts=a=>Math.min(100,c.fijos+a*pa);
+    const prob=a=>{const top=topPct(pts(a),c.r), cv=CONFIG.curva; for(let i=0;i<cv.length-1;i++){const [x0,y0]=cv[i],[x1,y1]=cv[i+1]; if(top<=x1) return y0+(y1-y0)*(top-x0)/(x1-x0);} return 1;};
+    const q=new URLSearchParams(location.search);
+    const fila={nombre:A.nombre,whatsapp:A.wa,estado:A.estado,funcion:A.funcion,nivel:A.nivel,sostenimiento:A.sosten,grupo:grupo(),
+      anios:A.anios,grado:A.grado,normal_basica:!!A.normal,horas_cursos:A.horas,tiene_incentivo:!!A.incentivo,
+      participo_antes:!!A.part,intentos:A.intentos||0,ultimo_resultado:A.previoTxt||null,ultimo_aciertos:A.previo??null,
+      preparacion:(AUTO[A.auto_i]||[])[0]||null,aciertos_hoy:c.hoyAc,sueldo_tabular:A.sueldo,zona_marginacion:!!A.marg,
+      zona,meta_aciertos:meta,aciertos_minimos:raw,prob_hoy:zona==='roja'?null:Math.round(Math.min(CONFIG.probHoyMax,prob(c.hoyAc))),prob_meta:zona==='roja'?null:Math.round(prob(meta)),
+      puntos_fijos:Math.round(c.fijos*100)/100,referencia_local:c.local,
+      utm_source:q.get('utm_source'),utm_medium:q.get('utm_medium'),utm_campaign:q.get('utm_campaign'),utm_content:q.get('utm_content'),origen:q.get('o')||q.get('origen')||'directo',user_agent:navigator.userAgent.slice(0,250)};
+    fetch(`${SUPA.url}/rest/v1/${SUPA.tabla}`,{method:'POST',headers:{'apikey':SUPA.key,'Authorization':'Bearer '+SUPA.key,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(fila),keepalive:true}).catch(()=>{});
+  }catch(e){}
+}
+function resultado(){ window.scrollTo(0,0);
+  const c=calc(); const nom=A.nombre.split(' ')[0]; const r=c.r; const g=grupo();
+  const n1=Math.max(CONFIG.aciertosMinimos,c.n1), n2=Math.max(CONFIG.aciertosMinimos,c.n2);
+  let zona,ztxt,zclass;
+  const raw=Math.max(0,c.n1); const Z=CONFIG.zonas;
+  const esc=[60,65,70,75,80,85,90];
+  const pa=CONFIG.pesos.examen/CONFIG.reactivos;
+  const pts=a=>Math.min(100,c.fijos+a*pa);
+  const lugar=a=>Math.max(1,Math.round(topPct(pts(a),r)/100*r[3])+1);
+  const sube=Math.max(1,Math.round((lugar(esc[0])-lugar(esc[esc.length-1]))/((esc[esc.length-1]-esc[0])/5)));
+  const meta=Math.min(n1,CONFIG.reactivos);
+  const prob=a=>{const top=topPct(pts(a),r), cv=CONFIG.curva; for(let i=0;i<cv.length-1;i++){const [x0,y0]=cv[i],[x1,y1]=cv[i+1]; if(top<=x1) return y0+(y1-y0)*(top-x0)/(x1-x0);} return 1;};
+  const pHoy=Math.round(Math.min(CONFIG.probHoyMax,prob(c.hoyAc))), pMeta=Math.round(prob(meta));
+  if(raw<=Z.verde){zona='ZONA VERDE';zclass='verde';ztxt=`Tus puntos fijos ya te ponen cerca de la zona de altas probabilidades. Tu reto es <b>no bajar de ${meta} aciertos</b>: en tu grupo, los que se confían son los que se quedan fuera.`;}
+  else if(raw<=Z.amarilla){zona='ZONA AMARILLA';zclass='amar';ztxt=`Estás en la pelea. Con <b>${meta} aciertos de ${CONFIG.reactivos}</b> entras a la zona de altas probabilidades de tu grupo. La diferencia entre quedar dentro o fuera la hace cómo te preparas.`;}
+  else if(raw<=Z.naranja){zona='ZONA NARANJA';zclass='nar';ztxt=`Tu Promoción depende del examen. Necesitas <b>${meta} aciertos de ${CONFIG.reactivos}</b> para entrar a la zona de altas probabilidades. Eso no se logra improvisando.`;}
+  else {zona='ZONA ROJA';zclass='roja';ztxt=`Tu camino es más complicado que el de otros docentes, pero no imposible. El corte cambia cada año con el número de participantes y el presupuesto, y lo que sí está en tus manos es tu examen. <b>Cada 5 aciertos te suben unos ${sube.toLocaleString('es-MX')} lugares en la lista.</b> Un examen de alto rendimiento no se improvisa: se construye con método y desde hoy.`;}
+  const verdeAm=raw<=Z.amarilla;
+  const enRango=a=>{const s=pts(a); return Math.max(0,Math.round((topPct(s-2.5,r)-topPct(s+2.5,r))/100*r[3]));};
+  const tgt=meta; const escMeta=esc.reduce((b,a)=>Math.abs(a-tgt)<Math.abs(b-tgt)?a:b,esc[0]);
+  const lugarTxt=c.local?`${titulo(A.estado)} · ${A.sosten==='Estatal'?'Estatal':'Federal'} · Grupo ${g}`:`Referencia nacional · Grupo ${g}`;
+  const factores=[["Antigüedad",c.fA,35],["Formación",c.fF,15],["Actualización (cursos)",c.fC,20],["Equidad",c.fE,5]];
+  const meta_txt=`${meta} aciertos`;
+  const msg=encodeURIComponent(`Hola Profe Luis, soy ${A.nombre}. Hice mi Diagnóstico PH 2027: estoy en ${zona} y necesito ${meta_txt} en el examen. Quiero mi plan para ganar mi Promoción.`);
+  app.innerHTML=`<div class="brand">Diagnóstico PH 2027 · ${lugarTxt}</div>
+  <h2>${nom.toUpperCase()}, ESTE ES <span class="neon">TU RESULTADO</span></h2>
+
+  <div class="zone ${zclass}">
+    <div class="bebas" style="font-size:30px">${zona}</div>
+    <div class="small" style="color:var(--txt);opacity:.75;margin-top:4px">${verdeAm?'La meta para tener altas probabilidades':'Aciertos que necesitas en el examen'}</div>
+    <div class="big">${meta}<span style="font-size:36px" class="gris"> / ${CONFIG.reactivos}</span></div>
+    ${verdeAm?`<div class="sector" style="margin-top:10px"><div class="small" style="color:var(--txt)">${raw<=10?`Tus puntos fijos casi te alcanzan solos: con apenas <b class="neon" style="font-size:22px">${Math.max(1,raw)} ${Math.max(1,raw)===1?'acierto':'aciertos'}</b> llegarías a la orilla.`:`El mínimo para llegar a la orilla de la zona son <b class="neon" style="font-size:22px">${raw} aciertos</b>.`}<br>Con <b>${meta} aciertos</b> quedarías en el lugar <b>#${lugar(meta).toLocaleString('es-MX')} de ${r[3].toLocaleString('es-MX')}</b>. El corte cambia cada año: el ${meta} te da margen.</div></div>`:''}
+    ${zclass!=='roja'?`<div class="prob"><div class="small">Probabilidad estimada</div><div class="pr"><div><b>${pHoy}%</b><span>hoy</span></div><div class="arr">→</div><div><b class="neon">${pMeta}%</b><span>con ${meta} aciertos</span></div></div></div>`:''}
+    <p style="margin-top:8px">${ztxt}</p>
+  </div>
+
+  <div class="card">
+    <div class="bebas" style="font-size:28px">LO QUE YA TIENES ASEGURADO</div>
+    ${factores.map(([n,v,m])=>`<div class="bar"><div class="lbl"><span>${n}</span><span>${r1(v)} / ${m}</span></div><div class="tr"><div class="fl" style="width:${v/m*100}%"></div></div></div>`).join('')}
+    <div class="bar ex"><div class="lbl"><span><b class="neon">Examen</b> · lo que tú controlas</span><span>hasta 30</span></div><div class="tr"><div class="fl" style="width:${c.hoyEx/30*100}%"></div></div></div>
+    <p class="small">Puntos fijos: <b style="color:var(--txt)">${r1(c.fijos)}</b>. Antigüedad y grado ya no cambian antes del examen. <b class="neon">El examen es tu palanca.</b></p>
+  </div>
+
+  <div class="card">
+    <div class="bebas" style="font-size:28px">TÚ CONTRA TU GRUPO REAL</div>
+    <p class="small">${r[3].toLocaleString('es-MX')} docentes participaron en el último proceso en tu ${c.local?'estado y grupo':'grupo (promedio nacional)'}.</p>
+    <div class="sector"><div class="small">Con <b style="color:var(--txt)">${tgt} aciertos</b> tendrías <b style="color:var(--txt)">${r1(pts(tgt))} puntos</b>. Entre ${r1(pts(tgt)-2.5)} y ${r1(pts(tgt)+2.5)} puntos compitieron</div>
+      <div class="big neon" style="font-size:64px">${enRango(tgt).toLocaleString('es-MX')} docentes</div>
+      <div class="small">En ese sector, <b style="color:var(--txt)">un solo acierto</b> decide quién queda arriba.</div></div>
+    ${zclass==='roja'?`<div class="note" style="border-left-color:var(--neon)"><b>Cada 5 aciertos extra te suben unos ${sube.toLocaleString('es-MX')} lugares en la lista.</b> Cada acierto que preparas te acerca.</div>`:`<table>
+      <tr><td class="gris">Si sacas…</td><td class="gris">tu lugar en la lista</td></tr>
+      ${esc.map(a=>`<tr class="${a===escMeta?'meta':''}"><td>${a} aciertos</td><td>#${lugar(a).toLocaleString('es-MX')} de ${r[3].toLocaleString('es-MX')}</td></tr>`).join('')}
+    </table>
+    <div class="note" style="border-left-color:var(--neon)"><b>Cada 5 aciertos extra te suben unos ${sube.toLocaleString('es-MX')} lugares.</b> De 60 a 90 aciertos pasas del lugar #${lugar(60).toLocaleString('es-MX')} al #${lugar(90).toLocaleString('es-MX')}. Cada acierto que preparas cuenta.</div>`}
+    <p class="small" style="margin-top:10px">Proyección con resultados oficiales de USICAMM del último proceso. Probabilidades estimadas: el incentivo se asigna en orden de lista según el presupuesto de cada año.</p>
+  </div>
+
+  <div class="card">
+    <div class="bebas" style="font-size:28px">LO QUE ESTÁ EN JUEGO</div>
+    <p class="small">Nivel 1 de Promoción Horizontal: +${Math.round(c.pctInc*100)}% de tu sueldo tabular.</p>
+    <div class="money">
+      <div><span class="small">Al mes</span><b>${fmt(c.mes)}</b></div>
+      <div><span class="small">Al año</span><b>${fmt(c.mes*12)}</b></div>
+      <div class="full"><span class="small">En 10 años (sin contar aumentos ni niveles)</span><b class="neon">${fmt(c.mes*120)}</b></div>
+    </div>
+  </div>
+
+  <div class="note"><b>Dato clave:</b> el <b>${CONFIG.datoEncuesta}%</b> de los ganadores de Promoción Horizontal en el último proceso empezó a prepararse <b>6 a 7 meses antes</b> del examen. Solo el 10% empezó en enero del mismo año.</div>
+
+  <div class="offer dark">
+    <div class="otop">TU PLAN PARA LOGRAR ${meta} ACIERTOS</div>
+    <h2>${CONFIG.programa.nombre}</h2>
+    <p class="gris" style="margin-top:4px">El entrenamiento con el que más de 2,100 docentes ya ganaron su Promoción.</p>
+    <div class="cd"><div class="small" style="color:var(--txt)">Iniciamos el 16 de diciembre · 7:30 pm</div><div id="cd" class="cdn"></div></div>
+    <ul><li><b>10 semanas · 20 sesiones en vivo</b></li><li>Método ESCALA PH™ y Mentores ESTRATEGA™</li><li>Examen tipo USICAMM y Profe Luis IA</li><li>Taller «ADN del Examen»</li></ul>
+    <div class="price">Precio de referencia <s>${CONFIG.programa.precioRef}</s><br><span class="bebas neon" style="font-size:44px">Preventa ${CONFIG.programa.preventa}</span></div>
+    <a class="btn" href="https://wa.me/${CONFIG.whatsapp}?text=${msg}" target="_blank" rel="noopener">Quiero mi plan para el examen →</a>
+    <p class="small center" style="margin-top:8px">Te atendemos por WhatsApp: 228 607 0653</p>
+  </div>
+
+  <button class="btn sec" onclick="Object.keys(A).forEach(k=>delete A[k]);intro()">Hacer otro diagnóstico</button>
+  ${''}<p class="legal">Estudio estadístico con los resultados oficiales de USICAMM del último proceso de Promoción Horizontal${c.local?'':' (promedio nacional de tu grupo de dictaminación)'}. Es una estimación: no garantiza el resultado. La asignación del incentivo depende del presupuesto de cada año.</p>`;
+}
+let CDT=null;
+function tick(){ const el=document.getElementById('cd'); if(!el){return;}
+  let s=Math.max(0,Math.floor((new Date(CONFIG.inicio)-new Date())/1000));
+  if(s===0){ el.innerHTML='<b style="font-size:30px">¡YA INICIAMOS!</b>'; return; }
+  const d=Math.floor(s/86400); s%=86400; const h=Math.floor(s/3600); s%=3600; const m=Math.floor(s/60); const ss=s%60;
+  const p=n=>String(n).padStart(2,'0');
+  el.innerHTML=`<div><b>${d}</b><span>días</span></div><div><b>${p(h)}</b><span>horas</span></div><div><b>${p(m)}</b><span>min</span></div><div><b>${p(ss)}</b><span>seg</span></div>`; }
+const _res=resultado; resultado=function(){ _res(); tick(); clearInterval(CDT); CDT=setInterval(tick,1000); };
+intro();
+</script>
+</body>
+</html>
