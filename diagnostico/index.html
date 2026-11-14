@@ -205,13 +205,13 @@ function ir(i,sub){ paso=i; SUB=sub||null; window.scrollTo(0,0);
     <button class="btn" onclick="const v=document.getElementById('est').value; if(v){A.estado=v; ir(1)}">Siguiente</button>`); }
   if(k==='funcion'){ LISTA.funcion=[...FUNC_DOC,...FUNC_DIR]; marco(i,`<div class="q">¿Cuál es tu función?</div><div class="hint">La que desempeñas en la plaza con la que vas a participar.</div>${opciones(LISTA.funcion,'funcion')}`); }
   if(k==='nivel'){ LISTA.nivel=Object.keys(NIVELES); marco(i,`<div class="q">¿En qué nivel o servicio?</div><div class="hint">Si eres directivo, ATP o supervisor: el nivel de tu zona o escuela.</div>${opciones(LISTA.nivel,'nivel')}`); }
-  if(k==='sosten'){ LISTA.sosten=["Federal o federalizado","Estatal","No estoy seguro"]; marco(i,`<div class="q">¿Tu plaza es federal o estatal?</div><div class="hint">Viene en tu talón de pago o en tu nombramiento.</div>${opciones(LISTA.sosten,'sosten')}`); }
+  if(k==='sosten'){ LISTA.sosten=["Federal o federalizado","Estatal"]; marco(i,`<div class="q">¿Tu plaza es federal o estatal?</div><div class="hint">Viene en tu talón de pago o en tu nombramiento.</div>${opciones(LISTA.sosten,'sosten')}`); }
   if(k==='anios'){ marco(i,`<div class="q">¿Cuántos años de servicio tienes?</div><div class="hint">Años completos en educación pública.</div>
     <input type="number" id="an" inputmode="numeric" min="0" max="50" placeholder="Ej. 12" value="${A.anios??''}"><div class="err" id="e"></div>
     <button class="btn" onclick="const v=+document.getElementById('an').value; if(v>=2&&v<=50){A.anios=v; ir(5)} else document.getElementById('e').textContent='Escribe tus años de servicio (mínimo 2).'">Siguiente</button>`); }
   if(k==='grado'){ LISTA.grado=Object.keys(CONFIG.formacion); marco(i,`<div class="q">¿Cuál es tu grado máximo con título o cédula?</div>
     ${opciones(LISTA.grado,'grado')}
-    <label class="chk"><input type="checkbox" id="nb" ${A.normal?'checked':''} onchange="A.normal=this.checked"> También estudié la Normal Básica</label>
+    <label class="chk"><input type="checkbox" id="nb" ${A.normal?'checked':''} onchange="A.normal=this.checked"> Estudié en una Normal pública (Normal Básica pública)</label>
     <button class="btn" ${A.grado?'':'disabled'} onclick="if(A.grado) ir(6)">Siguiente</button>`); }
   if(k==='horas'){ LISTA.horas=HORAS; marco(i,`<div class="q">¿Cuántas horas de cursos del catálogo USICAMM tienes?</div><div class="hint">Solo cuentan los cursos de los catálogos oficiales, de 20 horas o más cada uno.</div>${opciones(HORAS,'horas',o=>o[1])}`); }
   if(k==='incentivo'){ LISTA.incentivo=["Sí","No"]; marco(i,`<div class="q">¿Tienes Carrera Magisterial, K1, KW u O1?</div><div class="hint">Si no tienes ninguno, sumas 5 puntos de equidad.</div>${opciones(LISTA.incentivo,'incentivo',o=>o==='Sí')}`); }
