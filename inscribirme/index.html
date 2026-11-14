@@ -59,6 +59,12 @@
   .foot{text-align:center;color:var(--mut);font-size:14px;margin-top:26px}
   .foot a{color:var(--neon)}
 </style>
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','681258031361374');fbq('track','PageView');
+fbq('track','ViewContent',{content_name:'Inscripcion Estratega',content_category:'pagos',value:6987,currency:'MXN'});
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=681258031361374&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
 <div class="wrap">
@@ -227,6 +233,20 @@ document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", asyn
   b.textContent = "¡Copiado!"; b.classList.add("ok");
   setTimeout(() => { b.textContent = "Copiar"; b.classList.remove("ok"); }, 1800);
 }));
+</script>
+<script>
+/* ====== PIXEL DE META: eventos de la página de pagos ====== */
+(function(){
+  const px=(...a)=>{try{if(window.fbq)fbq(...a);}catch(e){}};
+  const metodoDe=el=>{const c=el.closest('.opt'); const i=[...document.querySelectorAll('.opt')].indexOf(c); return ['transferencia','tarjeta','oxxo','banco_azteca'][i]||'otro';};
+  const planActual=()=>(document.querySelector('.plan.on')||{}).dataset?.plan||'contado';
+  const base={content_name:'Inscripcion Estratega'};
+  document.querySelectorAll('.head').forEach(h=>h.addEventListener('click',()=>{ if(h.parentElement.classList.contains('open')) px('trackCustom','EligeFormaPago',{...base,metodo:metodoDe(h)}); }));
+  document.querySelectorAll('.plan').forEach(b=>b.addEventListener('click',()=>px('trackCustom','EligeFormaPago',{...base,metodo:'transferencia',plan:b.dataset.plan})));
+  document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>px('trackCustom','CopiaDatosPago',{...base,metodo:metodoDe(b),dato:b.dataset.c,plan:metodoDe(b)==='transferencia'?planActual():undefined})));
+  document.querySelectorAll('a.btn.main,a.btn.alt').forEach(a=>a.addEventListener('click',()=>px('track','InitiateCheckout',{...base,metodo:'tarjeta',opcion:a.classList.contains('alt')?'stripe':'clip',value:6987,currency:'MXN'})));
+  document.querySelectorAll('a[data-wa]').forEach(a=>a.addEventListener('click',()=>{ if(a.dataset.wa==='Duda') px('track','Contact',{...base,motivo:'duda_pago'}); else px('trackCustom','EnviaComprobante',{...base,metodo:metodoDe(a),plan:metodoDe(a)==='transferencia'?planActual():undefined}); }));
+})();
 </script>
 </body>
 </html>
