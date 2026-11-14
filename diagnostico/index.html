@@ -88,6 +88,11 @@ tr.meta td:first-child{border-radius:8px 0 0 8px;padding-left:10px}tr.meta td:la
 .offer li:before{content:"✓";position:absolute;left:0;color:var(--neon);font-weight:700}
 .price{margin-top:10px}.price s{color:var(--g1)}
 </style>
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','681258031361374');fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=681258031361374&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
 <div class="wrap" id="app"></div>
@@ -172,7 +177,7 @@ function intro(){
   <h1>DIAGNÓSTICO <span class="neon full">PH 2027</span></h1>
   <p style="margin:16px 0 8px">Descubre <span class="neon"><b>en menos de 3 minutos</b></span> <b>cuántos aciertos necesitas</b> en el examen para entrar a la zona de alta probabilidad de ganar tu Promoción Horizontal.</p>
   <div class="note">Comparamos tu perfil con los <b>resultados oficiales de USICAMM del último proceso</b> de docentes de tu mismo estado, función y nivel.</div>
-  <button class="btn" onclick="ir(0)">Empezar mi diagnóstico</button>
+  <button class="btn" onclick="px('trackCustom','IniciaDiagnostico');ir(0)">Empezar mi diagnóstico</button>
   <p class="small center" style="margin-top:12px">10 preguntas · 1 por pantalla</p>`;
 }
 let SUB=null;
@@ -270,6 +275,7 @@ function enviar(){ const n=document.getElementById('nom').value.trim(), w=docume
   setTimeout(resultado,ms);
 }
 const SUPA={url:"https://zdblpcgyqltjpibftgng.supabase.co",key:"sb_publishable_N2UlWlViNMgDPga2CvLIPw_hGM-2Vlh",tabla:"diagnosticos_ph27"};
+function px(){ try{ if(window.fbq) fbq.apply(null,arguments); }catch(e){} }
 function guardar(){
   try{
     const c=calc(); const raw=Math.max(0,c.n1); const Z=CONFIG.zonas; const meta=Math.min(Math.max(CONFIG.aciertosMinimos,c.n1),CONFIG.reactivos);
@@ -305,6 +311,8 @@ function resultado(){ window.scrollTo(0,0);
   else if(raw<=Z.naranja){zona='ZONA NARANJA';zclass='nar';ztxt=`Tu Promoción depende del examen. Necesitas <b>${meta} aciertos de ${CONFIG.reactivos}</b> para entrar a la zona de altas probabilidades. Eso no se logra improvisando.`;}
   else {zona='ZONA ROJA';zclass='roja';ztxt=`Tu camino es más complicado que el de otros docentes, pero no imposible. El corte cambia cada año con el número de participantes y el presupuesto, y lo que sí está en tus manos es tu examen. <b>Cada 5 aciertos te suben unos ${sube.toLocaleString('es-MX')} lugares en la lista.</b> Un examen de alto rendimiento no se improvisa: se construye con método y desde hoy.`;}
   const verdeAm=raw<=Z.amarilla;
+  const pxData={content_name:'Diagnostico PH 2027',content_category:zona.replace('ZONA ','').toLowerCase(),estado:A.estado,grupo:String(g)};
+  if(!window.__leadSent){ window.__leadSent=true; px('track','Lead',pxData); }
   const enRango=a=>{const s=pts(a); return Math.max(0,Math.round((topPct(s-2.5,r)-topPct(s+2.5,r))/100*r[3]));};
   const tgt=meta; const escMeta=esc.reduce((b,a)=>Math.abs(a-tgt)<Math.abs(b-tgt)?a:b,esc[0]);
   const lugarTxt=c.local?`${titulo(A.estado)} · ${A.sosten==='Estatal'?'Estatal':'Federal'} · Grupo ${g}`:`Referencia nacional · Grupo ${g}`;
@@ -363,7 +371,7 @@ function resultado(){ window.scrollTo(0,0);
     <div class="cd"><div class="small" style="color:var(--txt)">Iniciamos el 16 de diciembre · 7:30 pm</div><div id="cd" class="cdn"></div></div>
     <ul><li><b>10 semanas · 20 sesiones en vivo</b></li><li>Método ESCALA PH™ y Mentores ESTRATEGA™</li><li>Examen tipo USICAMM y Profe Luis IA</li><li>Taller «ADN del Examen»</li></ul>
     <div class="price">Precio de referencia <s>${CONFIG.programa.precioRef}</s><br><span class="bebas neon" style="font-size:44px">Preventa ${CONFIG.programa.preventa}</span></div>
-    <a class="btn" href="https://wa.me/${CONFIG.whatsapp}?text=${msg}" target="_blank" rel="noopener">Quiero mi plan para el examen →</a>
+    <a class="btn" href="https://wa.me/${CONFIG.whatsapp}?text=${msg}" target="_blank" rel="noopener" onclick='px("track","Contact",${JSON.stringify(pxData)})'>Quiero mi plan para el examen →</a>
     <p class="small center" style="margin-top:8px">Te atendemos por WhatsApp: 228 607 0653</p>
   </div>
 
