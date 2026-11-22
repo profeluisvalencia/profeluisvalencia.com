@@ -331,6 +331,12 @@ function resultado(){ window.scrollTo(0,0);
     <p style="margin-top:8px">${ztxt}</p>
   </div>
 
+  <div class="card" style="text-align:center">
+    <div class="bebas" style="font-size:28px">¿QUÉ HAGO CON MIS <span class="neon">${meta} ACIERTOS</span>?</div>
+    <p class="small">Mándame tu resultado y te respondo por WhatsApp con tu plan personalizado. Es gratis.</p>
+    <a class="btn" style="background:var(--neon);color:var(--base);margin-top:14px" href="https://wa.me/${CONFIG.whatsapp}?text=${msg}" target="_blank" rel="noopener" onclick='px("track","Contact",${JSON.stringify(pxData)})'>📲 Recibe tu plan por WhatsApp</a>
+  </div>
+
   <div class="card">
     <div class="bebas" style="font-size:28px">LO QUE YA TIENES ASEGURADO</div>
     ${factores.map(([n,v,m])=>`<div class="bar"><div class="lbl"><span>${n}</span><span>${r1(v)} / ${m}</span></div><div class="tr"><div class="fl" style="width:${v/m*100}%"></div></div></div>`).join('')}
