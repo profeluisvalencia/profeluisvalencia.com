@@ -78,12 +78,13 @@ function primerNombre(nombre) {
   return partes[0];
 }
 
-// Teléfono de México a 52 + 10 dígitos
+// Teléfono de México
 function telefonoMx(t) {
   let d = String(t || '').replace(/\D/g, '');
   if (!d) return '';
-  if (d.length === 10) d = '52' + d;
-  if (d.length === 13 && d.startsWith('521')) d = '52' + d.slice(3);
+  // Formato de WhatsApp en México que usa FunnelChat: 521 + 10 dígitos
+  if (d.length === 10) d = '521' + d;
+  else if (d.length === 12 && d.startsWith('52')) d = '521' + d.slice(2);
   return d;
 }
 
