@@ -8,81 +8,129 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0b0b0b;--card:#161616;--line:#2a2a2a;--txt:#f5f5f5;--mut:#a3a3a3;--neon:#BDFF00}
+  :root{--bg:#F6F6F1;--ink:#0D0814;--mut:#5f5c66;--line:#E3E2DC;--neon:#BDFF00;--blue:#0066FF}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:480px;margin:0 auto;padding:28px 18px 48px}
-  .tag{display:inline-flex;align-items:center;gap:6px;background:var(--neon);color:#000;font-weight:700;font-size:13px;padding:6px 11px;border-radius:6px;letter-spacing:.3px}
-  h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:56px;line-height:.95;margin:16px 0 10px;letter-spacing:.5px}
-  h1 span{color:var(--neon)}
-  .sub{color:#d4d4d4;font-size:17px}
-  .sub b{color:var(--txt)}
-  .step{background:#121a00;border:1.5px solid var(--neon);border-radius:16px;padding:18px 16px;margin:26px 0 8px}
-  .step .n{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.5px;line-height:1;color:var(--neon)}
-  .step .n small{color:var(--txt)}
-  .step p{font-size:16px;color:#e5e5e5;margin:8px 0 14px}
-  .btn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:19px;border-radius:12px;padding:18px 14px}
-  .btn.wa{background:#25D366;color:#04210f;box-shadow:0 0 0 0 rgba(37,211,102,.6);animation:pulse 2s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 0 0 14px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
-  .hint{font-size:13px;color:var(--mut);margin-top:10px;text-align:center}
-  h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:28px;letter-spacing:.5px;margin:30px 0 12px}
-  .list{list-style:none}
-  .list li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:center;font-size:16px}
-  .list li i{font-style:normal;flex:none;width:30px;height:30px;border-radius:50%;background:#222;color:var(--neon);display:grid;place-items:center;font-weight:700;font-size:15px}
-  .wait{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:15px;color:#d4d4d4;margin-top:6px}
-  .wait strong{color:var(--neon)}
-  .help{text-align:center;color:var(--mut);font-size:15px;margin-top:26px}
-  .help a{color:var(--neon);font-weight:700}
-  .close{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.5px;line-height:1.1;margin-top:28px}
-  .close span{color:var(--neon)}
+  body{background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:460px;margin:0 auto;padding:36px 22px 56px}
+  .ok{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-weight:700;font-size:12px;letter-spacing:1.2px;padding:7px 12px 7px 9px;border-radius:999px}
+  .ok i{width:18px;height:18px;border-radius:50%;background:var(--neon);display:grid;place-items:center}
+  .ok i svg{width:11px;height:11px}
+  h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:64px;line-height:.92;letter-spacing:.5px;margin:22px 0 16px}
+  h1 mark{background:var(--neon);color:var(--ink);padding:0 8px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .sub{color:var(--mut);font-size:17px}
+  .sub b{color:var(--ink);font-weight:700}
+  .step{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;margin:32px 0 0;box-shadow:0 10px 30px -18px rgba(13,8,20,.25)}
+  .lbl{font-size:12px;font-weight:700;letter-spacing:1.4px;color:var(--blue)}
+  .step h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:34px;line-height:1;letter-spacing:.4px;margin:6px 0 8px}
+  .step p{color:var(--mut);font-size:16px;margin-bottom:18px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:700;font-size:17px;letter-spacing:.3px;border-radius:14px;padding:17px 14px;background:#25D366;color:#062b14}
+  .btn svg{width:22px;height:22px;flex:none}
+  .hint{font-size:13px;color:var(--mut);margin-top:12px;text-align:center}
+  h3{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:30px;letter-spacing:.4px;margin:40px 0 14px}
+  .tl{list-style:none;position:relative;margin-left:4px}
+  .tl:before{content:"";position:absolute;left:13px;top:14px;bottom:14px;width:2px;background:var(--line)}
+  .tl li{position:relative;padding:4px 0 16px 44px;font-size:16px}
+  .tl li b{position:absolute;left:0;top:2px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--neon);font-size:13px;display:grid;place-items:center}
+  .wait{border-left:3px solid var(--blue);padding:4px 0 4px 14px;color:var(--mut);font-size:15px;margin-top:4px}
+  .wait strong{color:var(--ink)}
+  .end{margin-top:44px;padding-top:26px;border-top:1px solid var(--line);text-align:center}
+  .end p{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1.05;letter-spacing:.4px}
+  .end p span{background:var(--neon);padding:0 6px}
+  .end a{display:inline-block;margin-top:18px;color:var(--mut);font-size:14px;text-decoration:none;border-bottom:1px solid var(--line)}
+  .sig{margin-top:22px;font-size:13px;color:var(--mut);letter-spacing:.3px}
+  .cnt{display:none;margin-top:12px;text-align:center;font-size:14px;color:var(--ink)}
+  .cnt b{display:inline-block;min-width:26px;background:var(--neon);border-radius:6px;padding:1px 6px;margin:0 2px}
+  .cnt a{color:var(--mut);font-size:13px;margin-left:6px}
 </style>
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','681258031361374');fbq('track','PageView');
 (function(){
-  // Compra con tarjeta: se registra una sola vez por pago (evita duplicados si recargan)
   var q=new URLSearchParams(location.search), sid=q.get('session_id')||'';
-  var key='ph27_purchase_'+(sid||'nosid');
+  if(!sid) return; // solo cuenta la compra si viene de Stripe
+  var key='ph27_purchase_'+sid;
   try{ if(localStorage.getItem(key)) return; localStorage.setItem(key,'1'); }catch(e){}
-  var opt=sid?{eventID:sid}:{};
-  fbq('track','Purchase',{content_name:'Inscripcion Estratega',metodo:'tarjeta_stripe',value:6987,currency:'MXN'},opt);
+  fbq('track','Purchase',{content_name:'Inscripcion Estratega',metodo:'tarjeta_stripe',value:6987,currency:'MXN'},{eventID:sid});
 })();
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=681258031361374&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
 <div class="wrap">
-  <span class="tag">✅ PAGO CONFIRMADO</span>
-  <h1>¡Bienvenido, <span>Estratega!</span></h1>
-  <p class="sub">Tu lugar en <b>Estratega Promoción Horizontal 2027</b> ya está apartado. Ahora falta un solo paso para que empieces.</p>
+  <span class="ok"><i><svg viewBox="0 0 12 12"><path d="M2 6.3 4.8 9 10 3.2" fill="none" stroke="#0D0814" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>PAGO CONFIRMADO</span>
+
+  <h1 id="saludo">¡Bienvenido,<br><mark>Estratega!</mark></h1>
+  <p class="sub">Tu lugar en <b>Estratega Promoción Horizontal 2027</b> ya está apartado. Solo falta un paso.</p>
 
   <div class="step">
-    <div class="n">PASO 1 <small>· Avísanos por WhatsApp</small></div>
-    <p>Toca el botón y mándanos el mensaje tal cual. Con eso iniciamos tu alta y te damos acceso al grupo de alumnos y a todo el material.</p>
-    <a class="btn wa" id="wa" target="_blank" rel="noopener">💬 YA PAGUÉ · QUIERO MI ACCESO</a>
-    <p class="hint">Escribe tu nombre completo y tu correo en el mensaje antes de enviarlo.</p>
+    <div class="lbl">PASO 1</div>
+    <h2>Avísanos por WhatsApp</h2>
+    <p>Mándanos el mensaje tal cual. Con eso iniciamos tu alta y te damos acceso al grupo y al material.</p>
+    <a class="btn" id="wa" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="#062b14"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.6-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+      Ya pagué · Quiero mi acceso
+    </a>
+    <p class="hint" id="hint">Antes de enviarlo, escribe tu nombre completo y tu correo.</p>
+    <p class="cnt" id="cnt">Te llevamos a WhatsApp en <b id="seg">45</b> s <a href="#" id="stop">quedarme aquí</a></p>
   </div>
 
-  <h2>Qué sigue</h2>
-  <ul class="list">
-    <li><i>1</i>Validaremos tu registro en nuestro sistema.</li>
-    <li><i>2</i>Te daremos de alta en nuestra plataforma.</li>
-    <li><i>3</i>Te agregamos al grupo de Estrategas PH 2027.</li>
-  </ul>
-  <div class="wait"><strong>Ten paciencia:</strong> el proceso de alta puede tardar un poco, porque validamos tu aportación uno por uno. Te avisamos por WhatsApp en cuanto quede lista.</div>
+  <h3>Qué sigue</h3>
+  <ol class="tl">
+    <li><b>1</b>Validaremos tu registro en nuestro sistema.</li>
+    <li><b>2</b>Te daremos de alta en nuestra plataforma.</li>
+    <li><b>3</b>Te agregamos al grupo de Estrategas PH 2027.</li>
+  </ol>
+  <p class="wait"><strong>Ten paciencia:</strong> el alta puede tardar un poco, porque validamos cada aportación una por una. Te avisamos por WhatsApp en cuanto quede lista.</p>
 
-  <p class="help">¿Algún problema? <a id="wa2" target="_blank" rel="noopener">Escríbenos al mismo WhatsApp</a></p>
-
-  <p class="close">Ya diste el paso que la mayoría no da.<br><span>Nos vemos dentro.</span></p>
+  <div class="end">
+    <p>Ya diste el paso que la mayoría no da.<br><span>Nos vemos dentro.</span></p>
+    <a id="wa2" target="_blank" rel="noopener">¿Algún problema? Escríbenos al mismo WhatsApp</a>
+    <div class="sig">Profe Luis Valencia</div>
+  </div>
 </div>
 <script>
 const WHATSAPP = "522286070653";
-const msg = "Hola Profe Luis, ya pagué Estratega PH 2027 con tarjeta. Mi nombre completo es: ____ y mi correo es: ____";
-const wa = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
-const wa2 = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola Profe Luis, ya pagué Estratega PH 2027 con tarjeta y tengo un problema: ");
-document.getElementById("wa").href = wa;
-document.getElementById("wa2").href = wa2;
-document.getElementById("wa").addEventListener("click", function(){ try{ fbq('trackCustom','PideAcceso',{content_name:'Inscripcion Estratega',metodo:'tarjeta_stripe'}); }catch(e){} });
+const $ = id => document.getElementById(id);
+const link = t => "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(t);
+const sid = new URLSearchParams(location.search).get("session_id") || "";
+let msg = "Hola Profe Luis, ya pagué Estratega PH 2027 con tarjeta. Mi nombre completo es: ____ y mi correo es: ____. Te envío mi comprobante de pago.";
+function pintar(){ $("wa").href = link(msg); }
+pintar();
+$("wa2").href = link("Hola Profe Luis, ya pagué Estratega PH 2027 con tarjeta y tengo un problema: ");
+const esc = t => String(t).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+// Saludo con su nombre (viene de Stripe)
+if (sid) {
+  fetch("/api/session?session_id=" + encodeURIComponent(sid)).then(r => r.json()).then(d => {
+    if (!d || !d.ok || !d.primer) return;
+    const p = esc(d.primer);
+    $("saludo").innerHTML = d.genero === "f" ? "¡Bienvenida,<br><mark>Estratega " + p + "!</mark>"
+      : d.genero === "m" ? "¡Bienvenido,<br><mark>Estratega " + p + "!</mark>"
+      : "¡Te damos la bienvenida,<br><mark>Estratega " + p + "!</mark>";
+    msg = "Hola Profe Luis, ya pagué Estratega PH 2027 con tarjeta. Mi nombre es " + d.nombre +
+      (d.correo ? " y mi correo es " + d.correo : "") + ". Te envío mi comprobante de pago.";
+    pintar();
+    $("hint").textContent = "Tu mensaje ya lleva tu nombre y tu correo. Solo dale enviar y adjunta tu comprobante.";
+  }).catch(() => {});
+}
+
+// Si en 45 s no toca el botón, lo llevamos a WhatsApp (una sola vez)
+let n = 45, timer = null, k = "ph27_wa_" + (sid || "x");
+function yaFue(){ try { return sessionStorage.getItem(k) === "1"; } catch(e){ return false; } }
+function marcar(){ try { sessionStorage.setItem(k, "1"); } catch(e){} }
+function parar(){ if (timer) { clearInterval(timer); timer = null; } $("cnt").style.display = "none"; }
+if (!yaFue()) {
+  $("cnt").style.display = "block";
+  timer = setInterval(() => {
+    n--; $("seg").textContent = n;
+    if (n <= 0) { parar(); marcar(); location.href = $("wa").href; }
+  }, 1000);
+}
+$("stop").addEventListener("click", e => { e.preventDefault(); parar(); marcar(); });
+$("wa").addEventListener("click", function(){
+  parar(); marcar();
+  try { fbq('trackCustom','PideAcceso',{content_name:'Inscripcion Estratega',metodo:'tarjeta_stripe'}); } catch(e){}
+});
 </script>
 </body>
 </html>
