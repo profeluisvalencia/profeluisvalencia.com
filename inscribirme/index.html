@@ -108,14 +108,12 @@ fbq('track','ViewContent',{content_name:'Inscripcion Estratega',content_category
   <div class="opt">
     <button class="head" aria-expanded="false">
       <span class="ico">💳</span>
-      <span class="t"><b>Tarjeta de débito o crédito</b><i>De contado o a meses sin intereses</i></span>
+      <span class="t"><b>Tarjeta de débito o crédito</b><i>De contado o a 3 meses sin intereses</i></span>
       <span class="arrow">›</span>
     </button>
     <div class="body">
-      <p class="note">Pago seguro con Clip. Al pagar eliges si es de contado o a meses sin intereses con tu tarjeta de crédito.</p>
-      <a class="btn main" data-link="clip" target="_blank" rel="noopener">Pagar con tarjeta</a>
-      <p class="note" style="margin-top:14px">¿Clip rechazó tu tarjeta? Intenta por aquí:</p>
-      <a class="btn alt" href="https://buy.stripe.com/14AbJ02Jo70p7kT8jOgUM06" target="_blank" rel="noopener">Pagar con tarjeta · Opción 2</a>
+      <p class="note">Pago seguro con Stripe. Con tarjeta de crédito puedes pagar en <b>3 meses sin intereses</b> de $2,329: escribe tu tarjeta y marca la casilla <b>"Pagar en cuotas (meses sin intereses)"</b>.</p>
+      <a class="btn main" data-link="stripe" target="_blank" rel="noopener">Pagar con tarjeta</a>
     </div>
   </div>
 
@@ -174,7 +172,7 @@ const CONFIG = {
   clabe: "1278 8800 1200 0447 08",
   tarjetaDebito: "4027 6650 0195 3448",
   tarjetaOxxo: "4217 4701 9586 5726",
-  clip: "https://pago.clip.mx/v3/b0e3a96f-7aad-4f5f-8bc9-85a9de08943f", // tarjeta contado o MSI
+  stripe: "https://buy.stripe.com/14AbJ02Jo70p7kT8jOgUM06", // tarjeta: contado o 3 MSI
   whatsapp: "522286070653" // número para comprobantes (52 + 10 dígitos)
 };
 /* ============================= */
@@ -183,7 +181,7 @@ const fmt = n => "$" + n.toLocaleString("es-MX");
 const resto = CONFIG.precio - 5000;
 const vals = {...CONFIG, monto: fmt(CONFIG.precio) + " MXN", montoNum: String(CONFIG.precio), resto: fmt(resto), restoMxn: fmt(resto) + " MXN"};
 // Oculta opciones sin link y botones de WhatsApp sin número
-["clip"].forEach(k => { if (!CONFIG[k] || CONFIG[k] === "#") document.querySelector(`[data-link="${k}"]`).closest(".opt").style.display = "none"; });
+["stripe"].forEach(k => { if (!CONFIG[k] || CONFIG[k] === "#") document.querySelector(`[data-link="${k}"]`).closest(".opt").style.display = "none"; });
 const waOk = /^52\d{10}$/.test(CONFIG.whatsapp);
 if (!waOk) document.querySelectorAll("[data-wa]").forEach(el => (el.closest(".foot") || el).style.display = "none");
 document.getElementById("precio").textContent = fmt(CONFIG.precio);
@@ -244,7 +242,7 @@ document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", asyn
   document.querySelectorAll('.head').forEach(h=>h.addEventListener('click',()=>{ if(h.parentElement.classList.contains('open')) px('trackCustom','EligeFormaPago',{...base,metodo:metodoDe(h)}); }));
   document.querySelectorAll('.plan').forEach(b=>b.addEventListener('click',()=>px('trackCustom','EligeFormaPago',{...base,metodo:'transferencia',plan:b.dataset.plan})));
   document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>px('trackCustom','CopiaDatosPago',{...base,metodo:metodoDe(b),dato:b.dataset.c,plan:metodoDe(b)==='transferencia'?planActual():undefined})));
-  document.querySelectorAll('a.btn.main,a.btn.alt').forEach(a=>a.addEventListener('click',()=>px('track','InitiateCheckout',{...base,metodo:'tarjeta',opcion:a.classList.contains('alt')?'stripe':'clip',value:6987,currency:'MXN'})));
+  document.querySelectorAll('a.btn.main,a.btn.alt').forEach(a=>a.addEventListener('click',()=>px('track','InitiateCheckout',{...base,metodo:'tarjeta',opcion:'stripe',value:6987,currency:'MXN'})));
   document.querySelectorAll('a[data-wa]').forEach(a=>a.addEventListener('click',()=>{ if(a.dataset.wa==='Duda') px('track','Contact',{...base,motivo:'duda_pago'}); else px('trackCustom','EnviaComprobante',{...base,metodo:metodoDe(a),plan:metodoDe(a)==='transferencia'?planActual():undefined}); }));
 })();
 </script>
