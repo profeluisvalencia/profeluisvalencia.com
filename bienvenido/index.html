@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>¡Bienvenido, Estratega! · Promoción Horizontal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0b0b0b;--card:#161616;--line:#2a2a2a;--txt:#f5f5f5;--mut:#a3a3a3;--neon:#BDFF00}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:480px;margin:0 auto;padding:28px 18px 48px}
+  .tag{display:inline-flex;align-items:center;gap:6px;background:var(--neon);color:#000;font-weight:700;font-size:13px;padding:6px 11px;border-radius:6px;letter-spacing:.3px}
+  h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:56px;line-height:.95;margin:16px 0 10px;letter-spacing:.5px}
+  h1 span{color:var(--neon)}
+  .sub{color:#d4d4d4;font-size:17px}
+  .sub b{color:var(--txt)}
+  .step{background:#121a00;border:1.5px solid var(--neon);border-radius:16px;padding:18px 16px;margin:26px 0 8px}
+  .step .n{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.5px;line-height:1;color:var(--neon)}
+  .step .n small{color:var(--txt)}
+  .step p{font-size:16px;color:#e5e5e5;margin:8px 0 14px}
+  .btn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:19px;border-radius:12px;padding:18px 14px}
+  .btn.wa{background:#25D366;color:#04210f;box-shadow:0 0 0 0 rgba(37,211,102,.6);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 0 0 14px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+  .hint{font-size:13px;color:var(--mut);margin-top:10px;text-align:center}
+  h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:28px;letter-spacing:.5px;margin:30px 0 12px}
+  .list{list-style:none}
+  .list li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:center;font-size:16px}
+  .list li i{font-style:normal;flex:none;width:30px;height:30px;border-radius:50%;background:#222;color:var(--neon);display:grid;place-items:center;font-weight:700;font-size:15px}
+  .wait{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:15px;color:#d4d4d4;margin-top:6px}
+  .wait strong{color:var(--neon)}
+  .help{text-align:center;color:var(--mut);font-size:15px;margin-top:26px}
+  .help a{color:var(--neon);font-weight:700}
+  .close{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.5px;line-height:1.1;margin-top:28px}
+  .close span{color:var(--neon)}
+</style>
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','681258031361374');fbq('track','PageView');
+(function(){
+  // Compra con tarjeta: se registra una sola vez por pago (evita duplicados si recargan)
+  var q=new URLSearchParams(location.search), sid=q.get('session_id')||'';
+  var key='ph27_purchase_'+(sid||'nosid');
+  try{ if(localStorage.getItem(key)) return; localStorage.setItem(key,'1'); }catch(e){}
+  var opt=sid?{eventID:sid}:{};
+  fbq('track','Purchase',{content_name:'Inscripcion Estratega',metodo:'tarjeta_stripe',value:6987,currency:'MXN'},opt);
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=681258031361374&ev=PageView&noscript=1"/></noscript>
+</head>
+<body>
+<div class="wrap">
+  <span class="tag">✅ PAGO CONFIRMADO</span>
+  <h1>¡Bienvenido, <span>Estratega!</span></h1>
+  <p class="sub">Tu lugar en <b>Estratega Promoción Horizontal 2027</b> ya está apartado. Ahora falta un solo paso para que empieces.</p>
+
+  <div class="step">
+    <div class="n">PASO 1 <small>· Avísanos por WhatsApp</small></div>
+    <p>Toca el botón y mándanos el mensaje tal cual. Con eso iniciamos tu alta y te damos acceso al grupo de alumnos y a todo el material.</p>
+    <a class="btn wa" id="wa" target="_blank" rel="noopener">💬 YA PAGUÉ · QUIERO MI ACCESO</a>
+    <p class="hint">Escribe tu nombre completo y tu correo en el mensaje antes de enviarlo.</p>
+  </div>
+
+  <h2>Qué sigue</h2>
+  <ul class="list">
+    <li><i>1</i>Validaremos tu registro en nuestro sistema.</li>
+    <li><i>2</i>Te daremos de alta en nuestra plataforma.</li>
+    <li><i>3</i>Te agregamos al grupo de Estrategas PH 2027.</li>
+  </ul>
+  <div class="wait"><strong>Ten paciencia:</strong> el proceso de alta puede tardar un poco, porque validamos tu aportación uno por uno. Te avisamos por WhatsApp en cuanto quede lista.</div>
+
+  <p class="help">¿Algún problema? <a id="wa2" target="_blank" rel="noopener">Escríbenos al mismo WhatsApp</a></p>
+
+  <p class="close">Ya diste el paso que la mayoría no da.<br><span>Nos vemos dentro.</span></p>
+</div>
+<script>
+const WHATSAPP = "522286070653";
+const msg = "Hola Profe Luis, ya pagué Estratega PH 2027 con tarjeta. Mi nombre completo es: ____ y mi correo es: ____";
+const wa = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
+const wa2 = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola Profe Luis, ya pagué Estratega PH 2027 con tarjeta y tengo un problema: ");
+document.getElementById("wa").href = wa;
+document.getElementById("wa2").href = wa2;
+document.getElementById("wa").addEventListener("click", function(){ try{ fbq('trackCustom','PideAcceso',{content_name:'Inscripcion Estratega',metodo:'tarjeta_stripe'}); }catch(e){} });
+</script>
+</body>
+</html>
